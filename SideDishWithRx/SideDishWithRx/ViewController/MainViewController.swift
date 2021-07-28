@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import RxCocoa
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
