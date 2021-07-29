@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import RxSwift
 
-class MainViewModel {
-    
+class MainViewModel: CommonViewModel {
+    var mainDishList: Observable<[MainDish]>?
+    var soupList : Observable<[Soup]>?
+    var sideDishLish: Observable<[SideDish]>?
 }
