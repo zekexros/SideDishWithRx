@@ -9,6 +9,7 @@ target 'SideDishWithRx' do
     pod 'NSObject+Rx'
     pod 'RxDataSources'
     pod 'SnapKit'
+    pod 'Action'
 
   # Pods for SideDishWithRx
 
