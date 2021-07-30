@@ -14,11 +14,11 @@ class SceneCoordinator: SceneCoordinatorType {
     private let bag = DisposeBag()
     
     private var window: UIWindow
-    private var currentVC: UIViewController
+    private var currentVC: UIViewController?
     
     required init(window: UIWindow) {
         self.window = window
-        self.currentVC = window.rootViewController!
+        self.currentVC = window.rootViewController
     }
     
     @discardableResult
@@ -29,7 +29,7 @@ class SceneCoordinator: SceneCoordinatorType {
         
         switch style {
         case .push:
-            guard let nav = currentVC.navigationController else {
+            guard let nav = currentVC?.navigationController else {
                 subject.onError(TransitionError.navigationControllerMissing)
                 break
             }
@@ -39,6 +39,7 @@ class SceneCoordinator: SceneCoordinatorType {
         case .root:
             currentVC = target
             window.rootViewController = target
+            window.makeKeyAndVisible()
             subject.onCompleted()
         }
         
