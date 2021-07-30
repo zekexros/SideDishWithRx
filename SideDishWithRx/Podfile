@@ -7,6 +7,8 @@ target 'SideDishWithRx' do
     pod 'RxSwift', '6.2.0'
     pod 'RxCocoa', '6.2.0'
     pod 'NSObject+Rx'
+    pod 'RxDataSources'
+    pod 'SnapKit'
 
   # Pods for SideDishWithRx
 

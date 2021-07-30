@@ -1,31 +1,45 @@
 PODS:
+  - Differentiator (5.0.0)
   - "NSObject+Rx (5.2.2)":
     - RxSwift (~> 6.2)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
     - RxSwift (= 6.2.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
+  - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - "NSObject+Rx"
   - RxCocoa (= 6.2.0)
+  - RxDataSources
   - RxSwift (= 6.2.0)
+  - SnapKit
 
 SPEC REPOS:
   trunk:
+    - Differentiator
     - "NSObject+Rx"
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
+    - SnapKit
 
 SPEC CHECKSUMS:
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: c51f814d007fa229a722f1c1d4e4ff3fa8204596
+PODFILE CHECKSUM: f210fb2ea3052c94897ae63481ea343df52ca5a2
 
 COCOAPODS: 1.10.1
