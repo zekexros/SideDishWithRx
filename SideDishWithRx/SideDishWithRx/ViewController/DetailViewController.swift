@@ -18,6 +18,6 @@ class DetailViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
-        <#code#>
+        
     }
 }

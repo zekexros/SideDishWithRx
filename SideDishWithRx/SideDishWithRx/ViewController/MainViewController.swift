@@ -22,7 +22,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
         return cell
     }
     
-    let sections = [SectionOfCustomData(header: "메인요리", items: [])]
+    let sections = [SectionOfCustomData(header: "메인요리", items: []), SectionOfCustomData(header: "수프", items: []), SectionOfCustomData(header: "반찬", items: [])]
     
     func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in

@@ -11,11 +11,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
+        let coordinator = SceneCoordinator(window: window!)
+        let mainViewModel = MainViewModel(coordinator: coordinator)
+        let mainScene = Scene.main(mainViewModel)
+        
+        coordinator.transition(to: mainScene, using: .root, animated: true)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

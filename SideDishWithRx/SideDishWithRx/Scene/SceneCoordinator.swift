@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+extension UIViewController {
+    var sceneViewController: UIViewController {
+        return self.children.first ?? self
+    }
+}
+
 //화면전환을 담당
 class SceneCoordinator: SceneCoordinatorType {
     private let bag = DisposeBag()
@@ -34,10 +40,10 @@ class SceneCoordinator: SceneCoordinatorType {
                 break
             }
             nav.pushViewController(target, animated: animated)
-            
+            currentVC = target.sceneViewController
             subject.onCompleted()
         case .root:
-            currentVC = target
+            currentVC = target.sceneViewController
             window.rootViewController = target
             window.makeKeyAndVisible()
             subject.onCompleted()
