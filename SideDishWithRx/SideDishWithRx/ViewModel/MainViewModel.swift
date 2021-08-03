@@ -28,14 +28,14 @@ class MainViewModel: CommonViewModel {
         super.init(sceneCoordinator: sceneCoordinator)
     }
     
-    func detailAction() -> Action<Dish, Void> {
+    lazy var transitionAction: Action<Dish, Void> = {
         return Action { dish in
             let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator)
             let detailScene = Scene.detail(detailViewModel)
             
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
         }
-    }
+    }()
     
     func fetchDishes() {
         apiService.fetchDish(path: .mainDish)

@@ -36,7 +36,6 @@ class MainViewController: UIViewController, ViewModelBindableType {
         configureAutoLayout()
         viewModel.fetchDishes()
         configureDataSource(viewModel.dataSource)
-        // Do any additional setup after loading the view.
     }
     
     func bindViewModel() {
@@ -44,8 +43,14 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .asDriver(onErrorJustReturn: [])
             .drive(mainDishListTableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
+        
+        mainDishListTableView.rx
+            .modelSelected(Dish.self)
+            .bind(to: viewModel.transitionAction.inputs)
+            .disposed(by: rx.disposeBag)
     }
 }
+
 
 //AutoLayout
 extension MainViewController {
