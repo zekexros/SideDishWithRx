@@ -15,15 +15,13 @@ import SnapKit
 class MainViewController: UIViewController, ViewModelBindableType {
     
     var viewModel: MainViewModel!
-    var mainDishListTabelView = UITableView()
-    let dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData> { dataSource, tableView, indexPath, item in
-        let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
-        cell.textLabel?.text = item.description
-        return cell
-    }
-    
-    let sections = [SectionOfCustomData(header: "메인요리", items: []), SectionOfCustomData(header: "수프", items: []), SectionOfCustomData(header: "반찬", items: [])]
-    
+    lazy var mainDishListTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(DishTableViewCell.self, forCellReuseIdentifier: "DishTableViewCell")
+        self.view.addSubview(tableView)
+        return tableView
+    }()
+
     func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
             return dataSource.sectionModels[indexPath].header
@@ -31,22 +29,29 @@ class MainViewController: UIViewController, ViewModelBindableType {
         dataSource.canEditRowAtIndexPath = { dataSource, indexPath in
           return true
         }
-        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureAutoLayout()
+        viewModel.fetchDishes()
+        configureDataSource(viewModel.dataSource)
         // Do any additional setup after loading the view.
     }
     
     func bindViewModel() {
-        Observable.just(sections)
-            .bind(to: mainDishListTabelView.rx.items(dataSource: dataSource))
+        viewModel.sections
+            .asDriver(onErrorJustReturn: [])
+            .drive(mainDishListTableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: rx.disposeBag)
     }
 }
 
 //AutoLayout
 extension MainViewController {
-    
+    func configureAutoLayout() {
+        mainDishListTableView.snp.makeConstraints { view in
+            view.edges.equalToSuperview()
+        }
+    }
 }
