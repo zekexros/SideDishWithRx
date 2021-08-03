@@ -13,7 +13,9 @@
 		93AA2D9C618B9CA88674A657 /* Pods_SideDishWithRx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */; };
 		B315776526B397E9001BEB3E /* Dishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315776426B397E9001BEB3E /* Dishes.swift */; };
 		B315776726B3A568001BEB3E /* SectionOfCustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315776626B3A568001BEB3E /* SectionOfCustomData.swift */; };
+		B33F9D7D26B7B770007ABF50 /* SideDishAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D7C26B7B770007ABF50 /* SideDishAPI.swift */; };
 		B33F9D7F26B7B9CE007ABF50 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D7E26B7B9CE007ABF50 /* EndPoint.swift */; };
+		B33F9D8126B80AA6007ABF50 /* DishTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */; };
 		B3658C5526B1338000B64504 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3658C5426B1338000B64504 /* DetailViewController.swift */; };
 		B3658C5826B1362100B64504 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3658C5726B1362100B64504 /* MainViewModel.swift */; };
 		B3658C5A26B1362800B64504 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3658C5926B1362800B64504 /* DetailViewModel.swift */; };
@@ -59,7 +61,9 @@
 		9A18A5D228069E4D3CE075F4 /* Pods-SideDishWithRxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRxTests.release.xcconfig"; path = "Target Support Files/Pods-SideDishWithRxTests/Pods-SideDishWithRxTests.release.xcconfig"; sourceTree = "<group>"; };
 		B315776426B397E9001BEB3E /* Dishes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dishes.swift; sourceTree = "<group>"; };
 		B315776626B3A568001BEB3E /* SectionOfCustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfCustomData.swift; sourceTree = "<group>"; };
+		B33F9D7C26B7B770007ABF50 /* SideDishAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishAPI.swift; sourceTree = "<group>"; };
 		B33F9D7E26B7B9CE007ABF50 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
+		B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishTableViewCell.swift; sourceTree = "<group>"; };
 		B3658C5426B1338000B64504 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		B3658C5726B1362100B64504 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		B3658C5926B1362800B64504 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -132,6 +136,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B33F9D7B26B7B75F007ABF50 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				B33F9D7C26B7B770007ABF50 /* SideDishAPI.swift */,
+				B33F9D7E26B7B9CE007ABF50 /* EndPoint.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		B33F9D8226B80AAF007ABF50 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		B3658C5326B1333200B64504 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,10 +209,12 @@
 		B3708BF526AE85AA0077CBE3 /* SideDishWithRx */ = {
 			isa = PBXGroup;
 			children = (
+				B33F9D7B26B7B75F007ABF50 /* Service */,
 				B315776326B397D7001BEB3E /* Model */,
 				B3658C5D26B138F500B64504 /* Scene */,
 				B3708BF626AE85AA0077CBE3 /* AppDelegate.swift */,
 				B3708BF826AE85AA0077CBE3 /* SceneDelegate.swift */,
+				B33F9D8226B80AAF007ABF50 /* View */,
 				B3658C5326B1333200B64504 /* ViewController */,
 				B3658C5626B135EE00B64504 /* ViewModel */,
 				B3708BFF26AE85AC0077CBE3 /* Assets.xcassets */,
@@ -477,11 +500,13 @@
 				B315776726B3A568001BEB3E /* SectionOfCustomData.swift in Sources */,
 				B3658C5F26B13AC900B64504 /* TransitionModel.swift in Sources */,
 				B3708BF726AE85AA0077CBE3 /* AppDelegate.swift in Sources */,
+				B33F9D8126B80AA6007ABF50 /* DishTableViewCell.swift in Sources */,
 				B3708BF926AE85AA0077CBE3 /* SceneDelegate.swift in Sources */,
 				B3658C6326B1400600B64504 /* SceneCoordinatorType.swift in Sources */,
 				B33F9D7F26B7B9CE007ABF50 /* EndPoint.swift in Sources */,
 				B315776526B397E9001BEB3E /* Dishes.swift in Sources */,
 				B3658C5526B1338000B64504 /* DetailViewController.swift in Sources */,
+				B33F9D7D26B7B770007ABF50 /* SideDishAPI.swift in Sources */,
 				B3658C6126B13B5100B64504 /* Scene.swift in Sources */,
 				B3658C6526B1432500B64504 /* SceneCoordinator.swift in Sources */,
 			);
