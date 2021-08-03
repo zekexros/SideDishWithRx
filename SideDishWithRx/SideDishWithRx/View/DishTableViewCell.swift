@@ -41,6 +41,13 @@ class DishTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let spacing = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+        contentView.frame = contentView.frame.inset(by: spacing)
+    }
+    
     func addSubviews() {
         addSubview(title)
     }
