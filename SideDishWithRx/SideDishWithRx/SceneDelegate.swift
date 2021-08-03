@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let coordinator = SceneCoordinator(window: window!)
-        let mainViewModel = MainViewModel(coordinator: coordinator)
+        let mainViewModel = MainViewModel(sceneCoordinator: coordinator, apiService: SideDishAPI())
         let mainScene = Scene.main(mainViewModel)
         
         coordinator.transition(to: mainScene, using: .root, animated: true)
