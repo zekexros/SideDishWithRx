@@ -39,6 +39,11 @@ class MainViewController: UIViewController, ViewModelBindableType {
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     func bindViewModel() {
         viewModel.sections
             .asDriver(onErrorJustReturn: [])
