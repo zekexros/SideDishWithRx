@@ -26,20 +26,18 @@ class DishTableViewCell: UITableViewCell {
     }()
     let nPrice = UILabel()
     let sPrice = UILabel()
-    let badge = UIView()
     let badgeStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
         stackView.spacing = 4
         return stackView
     }()
     let dishInformationStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.alignment = .leading
         return stackView
     }()
     
@@ -79,7 +77,7 @@ class DishTableViewCell: UITableViewCell {
         
         sPrice.text = sPriceValue
         priceStackView.addArrangedSubview(sPrice)
-        configurePriceHuggingPriority()
+
         
         if let nPriceValue = nPriceValue {
             nPrice.text = nPriceValue
@@ -101,7 +99,6 @@ class DishTableViewCell: UITableViewCell {
         }
         
         dishInformationStackView.addArrangedSubview(badgeStackView)
-        badgeStackAutoLayout()
     }
     
     func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
@@ -122,20 +119,9 @@ extension DishTableViewCell {
         }
         
         dishInformationStackView.snp.makeConstraints { stackView in
-            stackView.top.bottom.equalToSuperview()
+            stackView.top.bottom.equalToSuperview().inset(1)
             stackView.leading.equalTo(dishPhotography.snp.trailing).offset(8)
             stackView.trailing.equalToSuperview().inset(16)
         }
-        
-    }
-    
-    func badgeStackAutoLayout() {
-        badgeStackView.snp.makeConstraints { stackView in
-            stackView.height.equalTo(25)
-        }
-    }
-    
-    func configurePriceHuggingPriority() {
-        sPrice.snp.contentHuggingHorizontalPriority = 252
     }
 }
