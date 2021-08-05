@@ -31,6 +31,7 @@
 		B3708C0326AE85AC0077CBE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3708C0126AE85AC0077CBE3 /* LaunchScreen.storyboard */; };
 		B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */; };
 		B3708C1926AE85AC0077CBE3 /* SideDishWithRxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */; };
+		B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B8529926BB90A9008533DC /* BadgeLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		B3708C1426AE85AC0077CBE3 /* SideDishWithRxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SideDishWithRxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishWithRxUITests.swift; sourceTree = "<group>"; };
 		B3708C1A26AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3B8529926BB90A9008533DC /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		EE52B7E9426517A8E0838CCF /* Pods-SideDishWithRx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx/Pods-SideDishWithRx.debug.xcconfig"; sourceTree = "<group>"; };
 		F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRx.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */,
+				B3B8529926BB90A9008533DC /* BadgeLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */,
 				B3658C5826B1362100B64504 /* MainViewModel.swift in Sources */,
 				4996F0C826B2405700511407 /* CommonViewModel.swift in Sources */,
 				B3658C5A26B1362800B64504 /* DetailViewModel.swift in Sources */,

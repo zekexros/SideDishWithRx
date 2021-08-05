@@ -91,7 +91,6 @@ class DishTableViewCell: UITableViewCell {
         return attributeString
     }
     
-    
     func configureBadgeStackView(badge: [String?]?) {
         badgeStackView.subviews.forEach { $0.removeFromSuperview() }
         
@@ -100,9 +99,15 @@ class DishTableViewCell: UITableViewCell {
         }
 
         badge.forEach { badge in
-            let badgeLabel = UILabel()
-            badgeLabel.text = badge
-            badgeStackView.addArrangedSubview(badgeLabel)
+            if badge == "이벤트특가" {
+                let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemIndigo, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
+                badgeLabel.text = badge
+                badgeStackView.addArrangedSubview(badgeLabel)
+            } else {
+                let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemYellow, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
+                badgeLabel.text = badge
+                badgeStackView.addArrangedSubview(badgeLabel)
+            }
         }
         
         dishInformationStackView.addArrangedSubview(badgeStackView)
