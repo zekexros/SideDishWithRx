@@ -22,6 +22,27 @@ class MainViewController: UIViewController, ViewModelBindableType {
         return tableView
     }()
     
+    lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData> { [unowned self] dataSource, tableView, indexPath, item in
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
+
+        Observable.just(item.image)
+            .observe(on: ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global()))
+            .map { imageURL -> UIImage? in
+                guard let url = URL(string: imageURL) else { return nil }
+                let data = try Data(contentsOf: url)
+                let image = UIImage(data: data)
+                return image
+            }
+            .catchAndReturn(nil)
+            .observe(on: MainScheduler.instance)
+            .bind(to: cell.dishPhotography.rx.image)
+            .disposed(by: self.rx.disposeBag)
+
+        cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
+        
+        return cell
+    }
+    
     func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
             return dataSource.sectionModels[indexPath].header
@@ -35,7 +56,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         configureAutoLayout()
         viewModel.fetchDishes()
-        configureDataSource(viewModel.dataSource)
+        configureDataSource(dataSource)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
     }
     
@@ -47,7 +68,8 @@ class MainViewController: UIViewController, ViewModelBindableType {
     func bindViewModel() {
         viewModel.sections
             .asDriver(onErrorJustReturn: [])
-            .drive(mainDishListTableView.rx.items(dataSource: viewModel.dataSource))
+            .debug()
+            .drive(mainDishListTableView.rx.items(dataSource: dataSource))
             .disposed(by: rx.disposeBag)
         
         mainDishListTableView.rx

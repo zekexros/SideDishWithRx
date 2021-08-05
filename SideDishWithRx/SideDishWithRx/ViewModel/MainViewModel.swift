@@ -12,15 +12,11 @@ import Action
 import RxDataSources
 
 class MainViewModel: CommonViewModel {
-    var mainDishList = BehaviorSubject<[Dish]>(value: [])
-    var soupList = BehaviorSubject<[Dish]>(value: [])
-    var sideDishList = BehaviorSubject<[Dish]>(value: [])
-    var sections = BehaviorRelay<[SectionOfCustomData]>(value: [])
-    let dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData> { dataSource, tableView, indexPath, item in
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
-        cell.title.text = item.description
-        return cell
-    }
+    var mainDishList = PublishSubject<[Dish]>()
+    var soupList = PublishSubject<[Dish]>()
+    var sideDishList = PublishSubject<[Dish]>()
+    var sections = PublishRelay<[SectionOfCustomData]>()
+    
     var apiService: APIType
     
     init(sceneCoordinator: SceneCoordinatorType, apiService: APIType) {
@@ -32,7 +28,7 @@ class MainViewModel: CommonViewModel {
         return Action { dish in
             let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator)
             let detailScene = Scene.detail(detailViewModel)
-            
+
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
         }
     }()
@@ -50,15 +46,17 @@ class MainViewModel: CommonViewModel {
             .subscribe(soupList)
             .disposed(by: rx.disposeBag)
         
-        Observable.combineLatest([mainDishList, sideDishList, soupList], resultSelector: { dishes in
+        Observable.combineLatest([mainDishList, sideDishList, soupList], resultSelector: { dishes -> [SectionOfCustomData] in
             let dishes = [
                 SectionOfCustomData(header: "메인", items: dishes[0]),
                 SectionOfCustomData(header: "반찬", items: dishes[1]),
                 SectionOfCustomData(header: "스프", items: dishes[2])
             ]
+            return dishes
+        })
+        .subscribe(onNext: { [unowned self] dishes in
             self.sections.accept(dishes)
         })
-        .subscribe()
         .disposed(by: rx.disposeBag)
     }
 }
