@@ -70,20 +70,27 @@ class DishTableViewCell: UITableViewCell {
         dishInformationStackView.addArrangedSubview(priceStackView)
     }
     
-    
-    
     func configurePriceStackView(nPriceValue: String?, sPriceValue: String) {
         priceStackView.subviews.forEach { $0.removeFromSuperview() }
-        
+
         sPrice.text = sPriceValue
         priceStackView.addArrangedSubview(sPrice)
 
         
         if let nPriceValue = nPriceValue {
-            nPrice.text = nPriceValue
+            let attributedString = changeStrikeThrough(text: nPriceValue)
+            nPrice.attributedText = attributedString
+            nPrice.textColor = .gray
             priceStackView.addArrangedSubview(nPrice)
         }
     }
+    
+    func changeStrikeThrough(text: String) -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: text)
+        attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
+    
     
     func configureBadgeStackView(badge: [String?]?) {
         badgeStackView.subviews.forEach { $0.removeFromSuperview() }
