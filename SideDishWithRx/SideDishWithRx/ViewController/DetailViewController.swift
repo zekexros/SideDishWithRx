@@ -13,7 +13,6 @@ import NSObject_Rx
 class DetailViewController: UIViewController, ViewModelBindableType {
 
     var viewModel: DetailViewModel!
-    var backBarButton = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,17 +20,15 @@ class DetailViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
-        backBarButton.rx.tap
-            .do(onNext: { _ in
-                print("gkgkgk")
-            })
-            .bind(to: viewModel.transitionAction2().inputs)
-            .disposed(by: rx.disposeBag)
+        var backButton = UIBarButtonItem(title: "뒤로", style: .done, target: nil, action: nil)
+        backButton.rx.action = viewModel.popAction
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = false
-        navigationController!.navigationBar.topItem!.backBarButtonItem = backBarButton
+        self.navigationController?.navigationBar.isHidden = false
+
     }
 }

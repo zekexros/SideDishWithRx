@@ -54,12 +54,12 @@ class SceneCoordinator: SceneCoordinatorType {
     
     func close(animation: Bool) -> Completable {
         return Completable.create { [unowned self] completable in
-            if let nav = currentVC?.navigationController {
+            if let nav = self.currentVC?.navigationController {
                 guard nav.popViewController(animated: animation) != nil else {
                     completable(.error(TransitionError.navigationControllerMissing))
                     return Disposables.create()
                 }
-                currentVC = nav.viewControllers.last
+                self.currentVC = nav.viewControllers.last
                 
             }
             return Disposables.create()

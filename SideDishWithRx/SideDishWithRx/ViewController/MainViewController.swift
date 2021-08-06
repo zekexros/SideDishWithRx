@@ -22,7 +22,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
         return tableView
     }()
     
-    lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData> { [unowned self] dataSource, tableView, indexPath, item in
+    lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
 
         Observable.just(item.image)
@@ -39,9 +39,9 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .disposed(by: self.rx.disposeBag)
 
         cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
-        
+
         return cell
-    }
+    })
     
     func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
@@ -68,12 +68,14 @@ class MainViewController: UIViewController, ViewModelBindableType {
     func bindViewModel() {
         viewModel.sections
             .asDriver(onErrorJustReturn: [])
-            .debug()
             .drive(mainDishListTableView.rx.items(dataSource: dataSource))
             .disposed(by: rx.disposeBag)
         
-        mainDishListTableView.rx
-            .modelSelected(Dish.self)
+        Observable.zip(mainDishListTableView.rx.modelSelected(Dish.self), mainDishListTableView.rx.itemSelected)
+            .do(onNext: { (dish, indexPath) in
+                self.mainDishListTableView.deselectRow(at: indexPath, animated: true)
+            })
+            .map { $0.0 }
             .bind(to: viewModel.transitionAction.inputs)
             .disposed(by: rx.disposeBag)
     }
