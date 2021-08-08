@@ -17,8 +17,6 @@ extension UIViewController {
 
 //화면전환을 담당
 class SceneCoordinator: SceneCoordinatorType {
-    private let bag = DisposeBag()
-    
     private var window: UIWindow
     private var currentVC: UIViewController?
     

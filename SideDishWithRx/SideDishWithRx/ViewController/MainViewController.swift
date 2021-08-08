@@ -17,7 +17,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
     var viewModel: MainViewModel!
     lazy var mainDishListTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(DishTableViewCell.self, forCellReuseIdentifier: "DishTableViewCell")
+        tableView.register(DishTableViewCell.self, forCellReuseIdentifier: DishTableViewCell.cellID)
         self.view.addSubview(tableView)
         return tableView
     }()

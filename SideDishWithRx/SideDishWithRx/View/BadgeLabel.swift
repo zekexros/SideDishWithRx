@@ -9,10 +9,10 @@ import UIKit
 
 class BadgeLabel: UILabel {
 
-    var topInset: CGFloat
-    var bottomInset: CGFloat
-    var leadingInset: CGFloat
-    var trailingInset: CGFloat
+    private var topInset: CGFloat
+    private var bottomInset: CGFloat
+    private var leadingInset: CGFloat
+    private var trailingInset: CGFloat
     
     init(frame: CGRect, backgroundColor: UIColor, topInset: CGFloat, bottomInset: CGFloat, leadingInset: CGFloat, trailingInset: CGFloat) {
         self.topInset = topInset
