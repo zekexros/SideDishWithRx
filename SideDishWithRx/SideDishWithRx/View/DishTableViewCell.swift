@@ -8,32 +8,32 @@
 import UIKit
 import SnapKit
 
-class DishTableViewCell: UITableViewCell {
+final class DishTableViewCell: UITableViewCell {
     
     static let cellID = "DishTableViewCell"
     let dishPhotography: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
-    var title = UILabel()
-    let dishDescription = UILabel()
-    let priceStackView: UIStackView = {
+    private var title = UILabel()
+    private let dishDescription = UILabel()
+    private let priceStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.spacing = 4
         return stackView
     }()
-    let nPrice = UILabel()
-    let sPrice = UILabel()
-    let badgeStackView: UIStackView = {
+    private let nPrice = UILabel()
+    private let sPrice = UILabel()
+    private let badgeStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.spacing = 4
         return stackView
     }()
-    let dishInformationStackView: UIStackView = {
+    private let dishInformationStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -59,18 +59,18 @@ class DishTableViewCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: spacing)
     }
     
-    func addSubviews() {
+    private func addSubviews() {
         contentView.addSubview(dishPhotography)
         contentView.addSubview(dishInformationStackView)
     }
     
-    func configureDishInformationStackView() {
+    private func configureDishInformationStackView() {
         dishInformationStackView.addArrangedSubview(title)
         dishInformationStackView.addArrangedSubview(dishDescription)
         dishInformationStackView.addArrangedSubview(priceStackView)
     }
     
-    func configurePriceStackView(nPriceValue: String?, sPriceValue: String) {
+    private func configurePriceStackView(nPriceValue: String?, sPriceValue: String) {
         priceStackView.subviews.forEach { $0.removeFromSuperview() }
 
         sPrice.text = sPriceValue
@@ -85,13 +85,13 @@ class DishTableViewCell: UITableViewCell {
         }
     }
     
-    func changeStrikeThrough(text: String) -> NSAttributedString {
+    private func changeStrikeThrough(text: String) -> NSAttributedString {
         let attributeString = NSMutableAttributedString(string: text)
         attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSMakeRange(0, attributeString.length))
         return attributeString
     }
     
-    func configureBadgeStackView(badge: [String?]?) {
+    private func configureBadgeStackView(badge: [String?]?) {
         badgeStackView.subviews.forEach { $0.removeFromSuperview() }
         
         guard let badge = badge, !badge.compactMap({ $0 }).isEmpty else {
@@ -124,7 +124,7 @@ class DishTableViewCell: UITableViewCell {
 }
 
 extension DishTableViewCell {
-    func autoLayout() {
+    private func autoLayout() {
         dishPhotography.snp.makeConstraints { imageView in
             imageView.width.equalTo(dishPhotography.snp.height).multipliedBy(1)
             imageView.top.leading.bottom.equalToSuperview()
