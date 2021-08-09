@@ -33,6 +33,7 @@
 		B3708C1926AE85AC0077CBE3 /* SideDishWithRxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */; };
 		B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B8529926BB90A9008533DC /* BadgeLabel.swift */; };
 		B3E7386426C0C54B00632855 /* SideDishRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7386326C0C54B00632855 /* SideDishRepository.swift */; };
+		B3E7386B26C15D9100632855 /* DetailDish.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7386A26C15D9100632855 /* DetailDish.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		B3708C1A26AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3B8529926BB90A9008533DC /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		B3E7386326C0C54B00632855 /* SideDishRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishRepository.swift; sourceTree = "<group>"; };
+		B3E7386A26C15D9100632855 /* DetailDish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDish.swift; sourceTree = "<group>"; };
 		EE52B7E9426517A8E0838CCF /* Pods-SideDishWithRx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx/Pods-SideDishWithRx.debug.xcconfig"; sourceTree = "<group>"; };
 		F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRx.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -135,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				B315776426B397E9001BEB3E /* Dishes.swift */,
+				B3E7386A26C15D9100632855 /* DetailDish.swift */,
 				B315776626B3A568001BEB3E /* SectionOfCustomData.swift */,
 			);
 			path = Model;
@@ -523,6 +526,7 @@
 				B315776526B397E9001BEB3E /* Dishes.swift in Sources */,
 				B3658C5526B1338000B64504 /* DetailViewController.swift in Sources */,
 				B33F9D7D26B7B770007ABF50 /* SideDishAPI.swift in Sources */,
+				B3E7386B26C15D9100632855 /* DetailDish.swift in Sources */,
 				B3658C6126B13B5100B64504 /* Scene.swift in Sources */,
 				B3658C6526B1432500B64504 /* SceneCoordinator.swift in Sources */,
 			);
