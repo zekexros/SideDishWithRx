@@ -9,14 +9,27 @@ import UIKit
 import RxSwift
 import RxCocoa
 import NSObject_Rx
+import SnapKit
 
 class DetailViewController: UIViewController, ViewModelBindableType {
 
     var viewModel: DetailViewModel!
     
+    let detailScrollView: UIScrollView = {
+        var scrollView = UIScrollView()
+        scrollView.isPagingEnabled = true
+        return scrollView
+    }()
+    
+    let imagesScrollView: UIScrollView = {
+        var scrollView = UIScrollView()
+        return scrollView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.addSubview(detailScrollView)
+        configureAutoLayout()
     }
     
     func bindViewModel() {
@@ -24,11 +37,23 @@ class DetailViewController: UIViewController, ViewModelBindableType {
         backButton.rx.action = viewModel.popAction
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = backButton
+        
+        viewModel.fetchDetailDish()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
+        
+    }
+}
 
+extension DetailViewController {
+    func configureAutoLayout() {
+        detailScrollView.snp.makeConstraints { view in
+            view.edges.equalToSuperview()
+        }
     }
 }

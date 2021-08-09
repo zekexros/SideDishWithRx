@@ -19,22 +19,22 @@ class MainViewModel: CommonViewModel {
     
     lazy var transitionAction: Action<Dish, Void> = {
         return Action { dish in
-            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository, hashID: dish.detailHash)
+            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository, model: dish)
             let detailScene = Scene.detail(detailViewModel)
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
         }
     }()
     
     func fetchDishes() {
-        repository.fetch(path: EndPoint(path: .mainDish))
+        repository.fetch(path: EndPoint(path: .mainDish), id: nil)
             .subscribe(mainDishList)
             .disposed(by: rx.disposeBag)
         
-        repository.fetch(path: EndPoint(path: .sideDish))
+        repository.fetch(path: EndPoint(path: .sideDish), id: nil)
             .subscribe(sideDishList)
             .disposed(by: rx.disposeBag)
         
-        repository.fetch(path: EndPoint(path: .soup))
+        repository.fetch(path: EndPoint(path: .soup), id: nil)
             .subscribe(soupList)
             .disposed(by: rx.disposeBag)
         
