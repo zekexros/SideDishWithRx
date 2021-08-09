@@ -13,10 +13,10 @@ struct EndPoint {
     let path: Path
     let baseURL = "/develop/baminchan"
     
-    func url() -> URL? {
+    func url(hashID: String? = nil) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
-        urlComponents.path = baseURL + "/" + path.pathString
+        urlComponents.path = baseURL + "/" + path.pathString + "/" + (hashID ?? "")
         urlComponents.host = host
         
         return urlComponents.url
@@ -26,6 +26,7 @@ struct EndPoint {
         case mainDish = "main"
         case sideDish = "soup"
         case soup = "side"
+        case detail = "detail"
         
         var pathString: String {
             return self.rawValue

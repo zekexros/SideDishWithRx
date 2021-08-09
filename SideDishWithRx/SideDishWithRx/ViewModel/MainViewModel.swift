@@ -19,9 +19,8 @@ class MainViewModel: CommonViewModel {
     
     lazy var transitionAction: Action<Dish, Void> = {
         return Action { dish in
-            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository)
+            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository, hashID: dish.detailHash)
             let detailScene = Scene.detail(detailViewModel)
-
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
         }
     }()
