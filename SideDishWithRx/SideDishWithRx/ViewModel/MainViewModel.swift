@@ -17,16 +17,9 @@ class MainViewModel: CommonViewModel {
     var sideDishList = PublishSubject<[Dish]>()
     var sections = PublishRelay<[SectionOfCustomData]>()
     
-    var apiService: APIType
-    
-    init(sceneCoordinator: SceneCoordinatorType, apiService: APIType) {
-        self.apiService = apiService
-        super.init(sceneCoordinator: sceneCoordinator)
-    }
-    
     lazy var transitionAction: Action<Dish, Void> = {
         return Action { dish in
-            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator)
+            let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository)
             let detailScene = Scene.detail(detailViewModel)
 
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
@@ -34,15 +27,15 @@ class MainViewModel: CommonViewModel {
     }()
     
     func fetchDishes() {
-        apiService.fetchDish(path: .mainDish)
+        repository.fetch(path: EndPoint(path: .mainDish))
             .subscribe(mainDishList)
             .disposed(by: rx.disposeBag)
         
-        apiService.fetchDish(path: .sideDish)
+        repository.fetch(path: EndPoint(path: .sideDish))
             .subscribe(sideDishList)
             .disposed(by: rx.disposeBag)
         
-        apiService.fetchDish(path: .soup)
+        repository.fetch(path: EndPoint(path: .soup))
             .subscribe(soupList)
             .disposed(by: rx.disposeBag)
         

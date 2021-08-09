@@ -11,8 +11,10 @@ import RxSwift
 
 class CommonViewModel: NSObject {
     let sceneCoordinator: SceneCoordinatorType
+    let repository: RepositoryType
     
-    init(sceneCoordinator: SceneCoordinatorType) {
+    init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType) {
         self.sceneCoordinator = sceneCoordinator
+        self.repository = repository
     }
 }
