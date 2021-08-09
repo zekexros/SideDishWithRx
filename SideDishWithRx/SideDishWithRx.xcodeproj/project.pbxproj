@@ -32,6 +32,7 @@
 		B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */; };
 		B3708C1926AE85AC0077CBE3 /* SideDishWithRxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */; };
 		B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B8529926BB90A9008533DC /* BadgeLabel.swift */; };
+		B3E7386426C0C54B00632855 /* SideDishRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7386326C0C54B00632855 /* SideDishRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishWithRxUITests.swift; sourceTree = "<group>"; };
 		B3708C1A26AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3B8529926BB90A9008533DC /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
+		B3E7386326C0C54B00632855 /* SideDishRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishRepository.swift; sourceTree = "<group>"; };
 		EE52B7E9426517A8E0838CCF /* Pods-SideDishWithRx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx/Pods-SideDishWithRx.debug.xcconfig"; sourceTree = "<group>"; };
 		F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRx.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -212,6 +214,7 @@
 		B3708BF526AE85AA0077CBE3 /* SideDishWithRx */ = {
 			isa = PBXGroup;
 			children = (
+				B3E7386526C0C55500632855 /* Repository */,
 				B33F9D7B26B7B75F007ABF50 /* Service */,
 				B315776326B397D7001BEB3E /* Model */,
 				B3658C5D26B138F500B64504 /* Scene */,
@@ -243,6 +246,14 @@
 				B3708C1A26AE85AC0077CBE3 /* Info.plist */,
 			);
 			path = SideDishWithRxUITests;
+			sourceTree = "<group>";
+		};
+		B3E7386526C0C55500632855 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				B3E7386326C0C54B00632855 /* SideDishRepository.swift */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		FFEAC69065FB0E89B92FAC97 /* Pods */ = {
@@ -499,6 +510,7 @@
 				B3658C5826B1362100B64504 /* MainViewModel.swift in Sources */,
 				4996F0C826B2405700511407 /* CommonViewModel.swift in Sources */,
 				B3658C5A26B1362800B64504 /* DetailViewModel.swift in Sources */,
+				B3E7386426C0C54B00632855 /* SideDishRepository.swift in Sources */,
 				B3658C5C26B1368C00B64504 /* ViewModelBindableType.swift in Sources */,
 				B3708BFB26AE85AA0077CBE3 /* MainViewController.swift in Sources */,
 				B315776726B3A568001BEB3E /* SectionOfCustomData.swift in Sources */,
