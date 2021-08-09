@@ -11,20 +11,19 @@ import RxCocoa
 import NSObject_Rx
 
 protocol APIType {
-    func fetchDish(path: EndPoint.Path) -> Observable<[Dish]>
-    func fetchAllDishes() -> Observable<[[Dish]]>
+    func request(path: EndPoint) -> Observable<[Dish]>
+    func request(url: URL) -> Observable<Data>
 }
 
-class SideDishAPI: NSObject, APIType {
+final class SideDishAPI: NSObject, APIType {
     private let mainDishList = BehaviorRelay<[Dish]>(value: [])
     private let soupList = BehaviorRelay<[Dish]>(value: [])
     private let sideDishList = BehaviorRelay<[Dish]>(value: [])
     private let urlSession = URLSession.shared
     
-    func fetchDish(path: EndPoint.Path) -> Observable<[Dish]> {
-        let url = EndPoint(path: path).url()
+    func request(path: EndPoint) -> Observable<[Dish]> {
+        let url = path.url()
         let request = URLRequest(url: url!)
-        
         return urlSession.rx.data(request: request)
             .map { data -> [Dish] in
                 let decoder = JSONDecoder()
@@ -34,7 +33,8 @@ class SideDishAPI: NSObject, APIType {
             .catchAndReturn([])
     }
     
-    func fetchAllDishes() -> Observable<[[Dish]]> {
-        return Observable.combineLatest([fetchDish(path: .mainDish), fetchDish(path: .sideDish), fetchDish(path: .soup)])
+    func request(url: URL) -> Observable<Data> {
+        let urlRequest = URLRequest(url: url)
+        return urlSession.rx.data(request: urlRequest)
     }
 }
