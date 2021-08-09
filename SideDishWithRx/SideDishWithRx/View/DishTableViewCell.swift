@@ -59,6 +59,11 @@ final class DishTableViewCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: spacing)
     }
     
+    override func prepareForReuse() {
+        priceStackView.subviews.forEach { $0.removeFromSuperview() }
+        badgeStackView.subviews.forEach { $0.removeFromSuperview() }
+    }
+    
     private func addSubviews() {
         contentView.addSubview(dishPhotography)
         contentView.addSubview(dishInformationStackView)
@@ -71,8 +76,6 @@ final class DishTableViewCell: UITableViewCell {
     }
     
     private func configurePriceStackView(nPriceValue: String?, sPriceValue: String) {
-        priceStackView.subviews.forEach { $0.removeFromSuperview() }
-
         sPrice.text = sPriceValue
         priceStackView.addArrangedSubview(sPrice)
 
@@ -92,8 +95,6 @@ final class DishTableViewCell: UITableViewCell {
     }
     
     private func configureBadgeStackView(badge: [String?]?) {
-        badgeStackView.subviews.forEach { $0.removeFromSuperview() }
-        
         guard let badge = badge, !badge.compactMap({ $0 }).isEmpty else {
             return
         }
