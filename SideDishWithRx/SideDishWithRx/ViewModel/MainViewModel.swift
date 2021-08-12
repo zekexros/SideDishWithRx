@@ -26,15 +26,18 @@ class MainViewModel: CommonViewModel {
     }()
     
     func fetchDishes() {
-        repository.fetch(path: EndPoint(path: .mainDish), id: nil)
+        repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self)
+            .map { $0.body }
             .subscribe(mainDishList)
             .disposed(by: rx.disposeBag)
         
-        repository.fetch(path: EndPoint(path: .sideDish), id: nil)
+        repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self)
+            .map { $0.body }
             .subscribe(sideDishList)
             .disposed(by: rx.disposeBag)
         
-        repository.fetch(path: EndPoint(path: .soup), id: nil)
+        repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self)
+            .map { $0.body }
             .subscribe(soupList)
             .disposed(by: rx.disposeBag)
         

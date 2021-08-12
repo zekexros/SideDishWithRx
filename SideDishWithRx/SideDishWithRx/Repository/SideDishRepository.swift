@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol RepositoryType {
-    func fetch(path: EndPoint, id: String?) -> Observable<[Dish]>
+    func fetch<T:Decodable>(path: EndPoint, id: String?, decodingType: T.Type) -> Observable<T>
     func fetch(url: URL) -> Observable<Data>
 }
 
@@ -20,8 +20,8 @@ final class SideDishRepository: RepositoryType {
         self.apiService = apiService
     }
     
-    func fetch(path: EndPoint, id: String? = nil) -> Observable<[Dish]> {
-        return apiService.requestWithHashID(path: path, id: id)
+    func fetch<T:Decodable>(path: EndPoint, id: String? = nil, decodingType: T.Type) -> Observable<T> {
+        return apiService.requestWithHashID(path: path, id: id, decodingType: decodingType)
     }
     
     func fetch(url: URL) -> Observable<Data> {

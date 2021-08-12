@@ -21,8 +21,8 @@ class DetailViewModel: CommonViewModel {
     }
     
     func fetchDetailDish() {
-        repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash)
-            .subscribe(with: detailDish)
+        repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash, decodingType: DetailDish.self)
+            .subscribe(detailDish)
             .disposed(by: rx.disposeBag)
     }
     
