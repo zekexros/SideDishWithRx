@@ -26,13 +26,44 @@ class DetailScrollView: UIScrollView {
         return view
     }()
     
-    let secondeLine: UIView = {
+    let secondLine: UIView = {
         var view = UIView()
         view.backgroundColor = .systemGray
         return view
     }()
     
     let detailInformationStackView = DetailInformationStackView()
+    
+    let quantityStackView = QuantityStackView()
+    
+    let thirdLine: UIView = {
+        var view = UIView()
+        view.backgroundColor = .systemGray
+        return view
+    }()
+    
+    let priceTitle: UILabel = {
+        var label = UILabel()
+        label.text = "총 주문금액"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.tintColor = .systemGray
+        return label
+    }()
+    
+    let priceLabel: UILabel = {
+        var label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 32)
+        label.tintColor = .systemGray
+        return label
+    }()
+    
+    let detailSectionStackView: UIStackView = {
+        var stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,7 +73,12 @@ class DetailScrollView: UIScrollView {
         contentView.addSubview(dishInformationStackVIew)
         contentView.addSubview(firstLine)
         contentView.addSubview(detailInformationStackView)
-        contentView.addSubview(secondeLine)
+        contentView.addSubview(secondLine)
+        contentView.addSubview(quantityStackView)
+        contentView.addSubview(thirdLine)
+        contentView.addSubview(priceTitle)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(detailSectionStackView)
         configureAutoLayout()
     }
     
@@ -54,8 +90,9 @@ class DetailScrollView: UIScrollView {
         self.imagesScrollView.configureContentView(view: view)
     }
     
-    func configureCell(title: String, description: String, nPrice: String?, sPrice: String, badge: [String?]?) {
-        dishInformationStackVIew.configureCell(title: title, description: description, nprice: nPrice, sPrice: sPrice, badge: badge)
+    func setUpDishInformationStackView(title: String, description: String, nPrice: String?, sPrice: String, badge: [String?]?) {
+        dishInformationStackVIew.setUpStackView(title: title, description: description, nprice: nPrice, sPrice: sPrice, badge: badge)
+        dishInformationStackVIew.setUpFontSize(titleSize: 24, descriptionSize: 16)
     }
     
     func configureDetailInformationStackView(point: String, info: String, fee: String) {
@@ -66,8 +103,8 @@ class DetailScrollView: UIScrollView {
 extension DetailScrollView {
     func configureAutoLayout() {
         contentView.snp.makeConstraints { view in
-            view.edges.equalToSuperview()
-            view.centerX.centerY.equalToSuperview()
+            view.edges.equalTo(self)
+            view.centerX.equalTo(self)
         }
         
         imagesScrollView.snp.makeConstraints { view in
@@ -84,8 +121,8 @@ extension DetailScrollView {
         
         firstLine.snp.makeConstraints { line in
             line.top.equalTo(dishInformationStackVIew.snp.bottom).offset(24)
-            line.height.equalTo(2)
-            line.leading.trailing.equalToSuperview()
+            line.height.equalTo(1)
+            line.leading.trailing.equalToSuperview().inset(16)
         }
         
         detailInformationStackView.snp.makeConstraints { view in
@@ -93,10 +130,36 @@ extension DetailScrollView {
             view.leading.trailing.equalToSuperview().inset(16)
         }
         
-        secondeLine.snp.makeConstraints { line in
+        secondLine.snp.makeConstraints { line in
             line.top.equalTo(detailInformationStackView.snp.bottom).offset(24)
-            line.leading.trailing.bottom.equalToSuperview()
-            
+            line.height.equalTo(1)
+            line.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        quantityStackView.snp.makeConstraints { view in
+            view.top.equalTo(secondLine.snp.bottom).offset(24)
+            view.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        thirdLine.snp.makeConstraints { view in
+            view.top.equalTo(quantityStackView.snp.bottom).offset(24)
+            view.leading.trailing.equalToSuperview().inset(16)
+            view.height.equalTo(1)
+        }
+        
+        priceLabel.snp.makeConstraints { label in
+            label.top.equalTo(thirdLine.snp.bottom).offset(24)
+            label.leading.equalTo(priceTitle.snp.trailing).offset(24)
+        }
+
+        priceTitle.snp.makeConstraints { title in
+            title.centerX.equalToSuperview()
+            title.top.equalTo(thirdLine.snp.bottom).offset(34)
+        }
+
+        detailSectionStackView.snp.makeConstraints { view in
+            view.top.equalTo(priceTitle.snp.bottom).offset(40)
+            view.leading.trailing.bottom.equalToSuperview()
         }
     }
 }

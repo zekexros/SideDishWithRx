@@ -45,7 +45,8 @@ final class DishTableViewCell: UITableViewCell {
     }
     
     func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
-        dishInformationStackView.configureCell(title: title, description: description, nprice: nprice, sPrice: sPrice, badge: badge)
+        dishInformationStackView.setUpStackView(title: title, description: description, nprice: nprice, sPrice: sPrice, badge: badge)
+        dishInformationStackView.setUpFontSize(titleSize: 16, descriptionSize: 14)
     }
 }
 

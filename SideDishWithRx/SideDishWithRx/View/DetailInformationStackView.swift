@@ -81,17 +81,17 @@ class DetailInformationStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         axis = .vertical
-        distribution = .fill
+        distribution = .equalSpacing
         alignment = .leading
         spacing = 16
-        configure()
+        configureSubViews()
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func configure() {
+    func configureSubViews() {
         addArrangedSubview(reserveStackView)
         addArrangedSubview(deliveryInformationStackView)
         addArrangedSubview(deliveryFeeStackView)
@@ -131,8 +131,6 @@ extension DetailInformationStackView {
             title.width.equalTo(60)
         }
         
-        reserveTitle.snp.contentHuggingHorizontalPriority = 500
-        
         reserveStackView.snp.makeConstraints { view in
             view.leading.trailing.equalToSuperview()
         }
@@ -140,7 +138,6 @@ extension DetailInformationStackView {
         deliveryInformationTitle.snp.makeConstraints { title in
             title.width.equalTo(60)
         }
-        deliveryInformationTitle.snp.contentHuggingHorizontalPriority = 500
         
         deliveryInformationStackView.snp.makeConstraints { view in
             view.leading.trailing.equalToSuperview()
@@ -149,7 +146,6 @@ extension DetailInformationStackView {
         deliveryFeeTitle.snp.makeConstraints { title in
             title.width.equalTo(60)
         }
-        deliveryFeeTitle.snp.contentHuggingHorizontalPriority = 500
         
         deliveryFeeStackView.snp.makeConstraints { view in
             view.leading.trailing.equalToSuperview()

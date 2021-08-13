@@ -86,7 +86,7 @@ class DishInformationStackView: UIStackView {
         addArrangedSubview(priceStackView)
     }
     
-    func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
+    func setUpStackView(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
         self.title.text = title
         self.dishDescription.text = description
         
@@ -97,5 +97,10 @@ class DishInformationStackView: UIStackView {
     func prepareForReuseAsCell() {
         priceStackView.subviews.forEach { $0.removeFromSuperview() }
         badgeStackView.subviews.forEach { $0.removeFromSuperview() }
+    }
+    
+    func setUpFontSize(titleSize: CGFloat, descriptionSize: CGFloat) {
+        title.font = UIFont.boldSystemFont(ofSize: titleSize)
+        dishDescription.font = UIFont.systemFont(ofSize: descriptionSize)
     }
 }
