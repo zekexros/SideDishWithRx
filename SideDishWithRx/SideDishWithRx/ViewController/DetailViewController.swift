@@ -112,7 +112,7 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
         
     }
     
-    func setUpBackButtonItem() {
+    private func setUpBackButtonItem() {
         var backButton = UIBarButtonItem(title: "뒤로", style: .done, target: nil, action: nil)
         backButton.rx.action = viewModel.popAction
         navigationItem.hidesBackButton = true

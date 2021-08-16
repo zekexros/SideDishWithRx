@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DetailInformationStackView: UIStackView {
+final class DetailInformationStackView: UIStackView {
     
     let reserveTitle: UILabel = {
         var label = UILabel()
@@ -91,7 +91,7 @@ class DetailInformationStackView: UIStackView {
         super.init(coder: coder)
     }
     
-    func configureSubViews() {
+    private func configureSubViews() {
         addArrangedSubview(reserveStackView)
         addArrangedSubview(deliveryInformationStackView)
         addArrangedSubview(deliveryFeeStackView)
@@ -103,17 +103,17 @@ class DetailInformationStackView: UIStackView {
         configureAutoLayout()
     }
     
-    func configureReserveStackView() {
+    private func configureReserveStackView() {
         reserveStackView.addArrangedSubview(reserveTitle)
         reserveStackView.addArrangedSubview(reserveLabel)
     }
     
-    func configureDeliveryInformationStackView() {
+    private func configureDeliveryInformationStackView() {
         deliveryInformationStackView.addArrangedSubview(deliveryInformationTitle)
         deliveryInformationStackView.addArrangedSubview(deliveryInformationLabel)
     }
     
-    func configureDeliveryFeeStackView() {
+    private func configureDeliveryFeeStackView() {
         deliveryFeeStackView.addArrangedSubview(deliveryFeeTitle)
         deliveryFeeStackView.addArrangedSubview(deliveryFeeLabel)
     }
@@ -126,7 +126,7 @@ class DetailInformationStackView: UIStackView {
 }
 
 extension DetailInformationStackView {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         reserveTitle.snp.makeConstraints { title in
             title.width.equalTo(60)
         }

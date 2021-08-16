@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ImagesScrollView: UIScrollView {
+final class ImagesScrollView: UIScrollView {
 
     let contentView = UIView()
     
@@ -29,7 +29,7 @@ class ImagesScrollView: UIScrollView {
 }
 
 extension ImagesScrollView {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         contentView.snp.makeConstraints { view in
             view.edges.equalToSuperview()
             view.centerX.centerY.equalToSuperview()

@@ -85,7 +85,7 @@ class DishInformationStackView: UIStackView {
         return attributeString
     }
     
-    func addArrangeSubviews() {
+    private func addArrangeSubviews() {
         addArrangedSubview(title)
         addArrangedSubview(dishDescription)
         addArrangedSubview(priceStackView)

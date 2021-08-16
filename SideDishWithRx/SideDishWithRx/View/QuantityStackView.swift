@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class QuantityStackView: UIStackView {
+final class QuantityStackView: UIStackView {
     
     let quantityTitle: UILabel = {
         var label = UILabel()
@@ -73,7 +73,7 @@ class QuantityStackView: UIStackView {
         super.init(coder: coder)
     }
     
-    func configureSubviews() {
+    private func configureSubviews() {
         addArrangedSubview(quantityTitle)
         addArrangedSubview(quantityControlStackView)
         
@@ -86,7 +86,7 @@ class QuantityStackView: UIStackView {
 }
 
 extension QuantityStackView {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         quantityControlStackView.snp.makeConstraints { view in
             view.width.equalTo(90)
             view.height.equalTo(40)

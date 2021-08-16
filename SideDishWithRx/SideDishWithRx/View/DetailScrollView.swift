@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DetailScrollView: UIScrollView {
+final class DetailScrollView: UIScrollView {
 
     let contentView: UIView = {
         var view = UIView()
@@ -101,7 +101,7 @@ class DetailScrollView: UIScrollView {
 }
 
 extension DetailScrollView {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         contentView.snp.makeConstraints { view in
             view.edges.equalTo(self)
             view.centerX.equalTo(self)
