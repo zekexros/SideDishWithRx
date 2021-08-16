@@ -54,4 +54,9 @@ class MainViewModel: CommonViewModel {
         })
         .disposed(by: rx.disposeBag)
     }
+    
+    func fetchImage(url: URL) -> Observable<Data> {
+        return repository.fetch(url: url)
+    }
+    
 }

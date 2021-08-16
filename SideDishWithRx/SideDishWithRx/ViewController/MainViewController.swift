@@ -24,19 +24,13 @@ class MainViewController: UIViewController, ViewModelBindableType {
     
     lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
-
+        
         Observable.just(item.image)
-            .observe(on: ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global()))
-            .map { imageURL -> UIImage? in
-                guard let url = URL(string: imageURL) else { return nil }
-                let data = try Data(contentsOf: url)
-                let image = UIImage(data: data)
-                return image
-            }
-            .catchAndReturn(nil)
-            .observe(on: MainScheduler.instance)
+            .compactMap { URL(string: $0) }
+            .flatMap{ viewModel.fetchImage(url: $0) }
+            .map{ UIImage(data: $0) }
             .bind(to: cell.dishPhotography.rx.image)
-            .disposed(by: self.rx.disposeBag)
+            .disposed(by: rx.disposeBag)
 
         cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
 
@@ -81,6 +75,17 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         mainDishListTableView.rx.separatorStyle.onNext(.none)
+        
+        mainDishListTableView.rx.willBeginDecelerating
+            .subscribe { _ in
+                print("hi")
+            }
+            .disposed(by: rx.disposeBag)
+    }
+    
+    @objc func refresh(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        mainDishListTableView.reloadData()
     }
 }
 
@@ -97,7 +102,7 @@ extension MainViewController: UITableViewDelegate {
 
 //AutoLayout
 extension MainViewController {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         mainDishListTableView.snp.makeConstraints { view in
             view.edges.equalToSuperview()
         }
