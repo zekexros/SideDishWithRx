@@ -58,6 +58,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
         viewModel.fetchDishes()
         configureDataSource(dataSource)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +79,8 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .map { $0.0 }
             .bind(to: viewModel.transitionAction.inputs)
             .disposed(by: rx.disposeBag)
+        
+        mainDishListTableView.rx.separatorStyle.onNext(.none)
     }
 }
 
@@ -89,7 +92,6 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
     }
-    
     
 }
 

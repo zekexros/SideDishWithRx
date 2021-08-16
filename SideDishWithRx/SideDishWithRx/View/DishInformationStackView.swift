@@ -9,14 +9,19 @@ import UIKit
 
 class DishInformationStackView: UIStackView {
 
-    private var title = UILabel()
+    private var title: UILabel = {
+        var label = UILabel()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
     private let dishDescription = UILabel()
     private let nPrice = UILabel()
     private let sPrice = UILabel()
     private let priceStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.spacing = 4
         return stackView
     }()

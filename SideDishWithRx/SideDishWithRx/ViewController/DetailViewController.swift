@@ -11,11 +11,11 @@ import RxCocoa
 import NSObject_Rx
 import SnapKit
 
-class DetailViewController: UIViewController, ViewModelBindableType {
+final class DetailViewController: UIViewController, ViewModelBindableType {
 
     var viewModel: DetailViewModel!
     
-    let detailScrollView = DetailScrollView()
+    private let detailScrollView = DetailScrollView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +24,7 @@ class DetailViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
-        var backButton = UIBarButtonItem(title: "뒤로", style: .done, target: nil, action: nil)
-        backButton.rx.action = viewModel.popAction
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = backButton
+        setUpBackButtonItem()
         
         viewModel.fetchDetailDish()
         
@@ -94,10 +91,13 @@ class DetailViewController: UIViewController, ViewModelBindableType {
             
         viewModel.fetchDetailImages()
             .observe(on: MainScheduler.instance)
-            .map { UIImage(data: $0) }
+            .compactMap { UIImage(data: $0) }
             .map { image -> UIImageView in
+                let ratio = image.size.width / image.size.height
                 let imageView = UIImageView(image: image)
-                imageView.contentMode = .scaleAspectFit
+                imageView.snp.makeConstraints { view in
+                    view.width.equalTo(imageView.snp.height).multipliedBy(ratio)
+                }
                 return imageView
             }
             .bind(onNext: { imageView in
@@ -111,10 +111,17 @@ class DetailViewController: UIViewController, ViewModelBindableType {
         self.navigationController?.navigationBar.isHidden = false
         
     }
+    
+    func setUpBackButtonItem() {
+        var backButton = UIBarButtonItem(title: "뒤로", style: .done, target: nil, action: nil)
+        backButton.rx.action = viewModel.popAction
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = backButton
+    }
 }
 
 extension DetailViewController {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         detailScrollView.snp.makeConstraints { view in
             view.edges.equalToSuperview()
         }

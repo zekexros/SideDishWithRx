@@ -31,7 +31,7 @@ final class DishTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let spacing = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+        let spacing = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
         contentView.frame = contentView.frame.inset(by: spacing)
     }
     
