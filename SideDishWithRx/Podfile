@@ -10,6 +10,7 @@ target 'SideDishWithRx' do
     pod 'RxDataSources'
     pod 'SnapKit'
     pod 'Action'
+    pod 'RxTest'
 
   # Pods for SideDishWithRx
 
