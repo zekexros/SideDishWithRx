@@ -36,6 +36,7 @@
 		B3708C0326AE85AC0077CBE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3708C0126AE85AC0077CBE3 /* LaunchScreen.storyboard */; };
 		B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */; };
 		B3708C1926AE85AC0077CBE3 /* SideDishWithRxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */; };
+		B3ACD9FA26CC093D008D5C77 /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ACD9F926CC093D008D5C77 /* MainViewModelTests.swift */; };
 		B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B8529926BB90A9008533DC /* BadgeLabel.swift */; };
 		B3E7386426C0C54B00632855 /* SideDishRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7386326C0C54B00632855 /* SideDishRepository.swift */; };
 		B3E7386B26C15D9100632855 /* DetailDish.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E7386A26C15D9100632855 /* DetailDish.swift */; };
@@ -98,6 +99,7 @@
 		B3708C1426AE85AC0077CBE3 /* SideDishWithRxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SideDishWithRxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishWithRxUITests.swift; sourceTree = "<group>"; };
 		B3708C1A26AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3ACD9F926CC093D008D5C77 /* MainViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTests.swift; sourceTree = "<group>"; };
 		B3B8529926BB90A9008533DC /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		B3E7386326C0C54B00632855 /* SideDishRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishRepository.swift; sourceTree = "<group>"; };
 		B3E7386A26C15D9100632855 /* DetailDish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDish.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */,
+				B3ACD9F926CC093D008D5C77 /* MainViewModelTests.swift */,
 				B3708C0F26AE85AC0077CBE3 /* Info.plist */,
 			);
 			path = SideDishWithRxTests;
@@ -557,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */,
+				B3ACD9FA26CC093D008D5C77 /* MainViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
