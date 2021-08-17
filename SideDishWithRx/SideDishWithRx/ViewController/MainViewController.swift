@@ -75,12 +75,6 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         mainDishListTableView.rx.separatorStyle.onNext(.none)
-        
-        mainDishListTableView.rx.willBeginDecelerating
-            .subscribe { _ in
-                print("hi")
-            }
-            .disposed(by: rx.disposeBag)
     }
     
     @objc func refresh(refresh: UIRefreshControl) {

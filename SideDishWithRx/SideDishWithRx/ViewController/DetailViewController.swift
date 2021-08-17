@@ -72,6 +72,11 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             .map { [unowned self] _ in
                 self.viewModel.quantity.value + 1
             }
+            .do { [unowned self] value in
+                let tempPrice = self.viewModel.convertStringToInt(price: viewModel.dish.sPrice)
+                let price = self.viewModel.convertIntToWon(price: tempPrice * value) + "원"
+                self.viewModel.price.accept(price)
+            }
             .bind(to: viewModel.quantity)
             .disposed(by: rx.disposeBag)
         
@@ -80,11 +85,15 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
                 let value = self.viewModel.quantity.value - 1
                 return value < 1 ? 1 : value
             }
+            .do { [unowned self] value in
+                let tempPrice = self.viewModel.convertStringToInt(price: viewModel.dish.sPrice)
+                let price = self.viewModel.convertIntToWon(price: tempPrice * value) + "원"
+                self.viewModel.price.accept(price)
+            }
             .bind(to: viewModel.quantity)
             .disposed(by: rx.disposeBag)
         
-        viewModel.detailDish
-            .map { $0.data.prices[0] }
+        viewModel.price
             .asDriver(onErrorJustReturn: "")
             .drive(detailScrollView.priceLabel.rx.text)
             .disposed(by: rx.disposeBag)
