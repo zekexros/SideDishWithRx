@@ -57,6 +57,15 @@ final class DetailScrollView: UIScrollView {
         return label
     }()
     
+    let orderButton: UIButton = {
+        var button = UIButton()
+        button.setTitle("주문하기", for: .normal)
+        button.backgroundColor = .systemGreen
+        button.tintColor = .white
+        button.titleLabel?.textAlignment = .center
+        return button
+    }()
+    
     let detailSectionStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
@@ -78,6 +87,7 @@ final class DetailScrollView: UIScrollView {
         contentView.addSubview(thirdLine)
         contentView.addSubview(priceTitle)
         contentView.addSubview(priceLabel)
+        contentView.addSubview(orderButton)
         contentView.addSubview(detailSectionStackView)
         configureAutoLayout()
     }
@@ -150,15 +160,22 @@ extension DetailScrollView {
         priceLabel.snp.makeConstraints { label in
             label.top.equalTo(thirdLine.snp.bottom).offset(24)
             label.leading.equalTo(priceTitle.snp.trailing).offset(24)
+            label.trailing.equalToSuperview().inset(16)
         }
 
         priceTitle.snp.makeConstraints { title in
-            title.centerX.equalToSuperview()
             title.top.equalTo(thirdLine.snp.bottom).offset(34)
+            title.trailing.equalTo(priceLabel.snp.leading).offset(-24)
+        }
+        
+        orderButton.snp.makeConstraints { button in
+            button.top.equalTo(thirdLine.snp.bottom).offset(94)
+            button.leading.trailing.equalToSuperview().inset(16)
+            button.height.equalTo(58)
         }
 
         detailSectionStackView.snp.makeConstraints { view in
-            view.top.equalTo(priceTitle.snp.bottom).offset(40)
+            view.top.equalTo(orderButton.snp.bottom).offset(40)
             view.leading.trailing.bottom.equalToSuperview()
         }
     }
