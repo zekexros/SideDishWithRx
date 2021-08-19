@@ -11,6 +11,7 @@ target 'SideDishWithRx' do
     pod 'SnapKit'
     pod 'Action'
     pod 'RxTest'
+    pod 'RxBlocking'
 
   # Pods for SideDishWithRx
 
