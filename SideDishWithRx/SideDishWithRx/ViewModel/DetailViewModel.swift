@@ -10,17 +10,26 @@ import RxSwift
 import RxCocoa
 import Action
 
-class DetailViewModel: CommonViewModel {
+class DetailViewModel: NSObject, ViewModelType {
+    struct Input {
+        
+    }
     
+    struct Output {
+        
+    }
+    
+    var repository: RepositoryType
+    var sceneCoordinator: SceneCoordinatorType
     let dish: Dish
     let detailDish = PublishSubject<DetailDish>()
     let quantity = BehaviorRelay<Int>(value: 1)
     lazy var price = BehaviorRelay<String>(value: dish.sPrice)
-
     
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType, model: Dish) {
         self.dish = model
-        super.init(sceneCoordinator: sceneCoordinator, repository: repository)
+        self.sceneCoordinator = sceneCoordinator
+        self.repository = repository
     }
     
     func fetchDetailDish() {

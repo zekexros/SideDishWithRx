@@ -11,11 +11,26 @@ import RxCocoa
 import Action
 import RxDataSources
 
-class MainViewModel: CommonViewModel {
+class MainViewModel: NSObject, ViewModelType {
+    struct Input {
+        
+    }
+    
+    struct Output {
+        
+    }
+    
+    var sceneCoordinator: SceneCoordinatorType
+    var repository: RepositoryType
     var mainDishList = PublishSubject<[Dish]>()
     var soupList = PublishSubject<[Dish]>()
     var sideDishList = PublishSubject<[Dish]>()
     var sections = PublishRelay<[SectionOfCustomData]>()
+    
+    init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType) {
+        self.repository = repository
+        self.sceneCoordinator = sceneCoordinator
+    }
     
     lazy var transitionAction: Action<Dish, Void> = {
         return Action { dish in

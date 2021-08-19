@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		392A84D9703CA69503FED778 /* Pods_SideDishWithRxTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E28F760F5C99D84727D66C6 /* Pods_SideDishWithRxTests.framework */; };
-		4996F0C826B2405700511407 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996F0C726B2405700511407 /* CommonViewModel.swift */; };
+		4996F0C826B2405700511407 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996F0C726B2405700511407 /* ViewModelType.swift */; };
 		8B1DCF0A54D093F493C21E73 /* Pods_SideDishWithRx_SideDishWithRxUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FFC41B317D8774D9A18193 /* Pods_SideDishWithRx_SideDishWithRxUITests.framework */; };
 		93AA2D9C618B9CA88674A657 /* Pods_SideDishWithRx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */; };
 		B315776526B397E9001BEB3E /* Dishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315776426B397E9001BEB3E /* Dishes.swift */; };
@@ -63,7 +63,7 @@
 		188B9AF3392894F840BDAA88 /* Pods-SideDishWithRxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRxTests.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRxTests/Pods-SideDishWithRxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		19882F15EBB9AA6769050E48 /* Pods-SideDishWithRx-SideDishWithRxUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx-SideDishWithRxUITests.release.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx-SideDishWithRxUITests/Pods-SideDishWithRx-SideDishWithRxUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2DCD464F4006F18C3B9E0E92 /* Pods-SideDishWithRx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx.release.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx/Pods-SideDishWithRx.release.xcconfig"; sourceTree = "<group>"; };
-		4996F0C726B2405700511407 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
+		4996F0C726B2405700511407 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		4F053D371ACC80A7EE848D94 /* Pods-SideDishWithRx-SideDishWithRxUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx-SideDishWithRxUITests.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx-SideDishWithRxUITests/Pods-SideDishWithRx-SideDishWithRxUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E28F760F5C99D84727D66C6 /* Pods_SideDishWithRxTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRxTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83FFC41B317D8774D9A18193 /* Pods_SideDishWithRx_SideDishWithRxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRx_SideDishWithRxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,7 +191,7 @@
 		B3658C5626B135EE00B64504 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4996F0C726B2405700511407 /* CommonViewModel.swift */,
+				4996F0C726B2405700511407 /* ViewModelType.swift */,
 				B3658C5726B1362100B64504 /* MainViewModel.swift */,
 				B3658C5926B1362800B64504 /* DetailViewModel.swift */,
 			);
@@ -529,7 +529,7 @@
 			files = (
 				B3B8529A26BB90A9008533DC /* BadgeLabel.swift in Sources */,
 				B3658C5826B1362100B64504 /* MainViewModel.swift in Sources */,
-				4996F0C826B2405700511407 /* CommonViewModel.swift in Sources */,
+				4996F0C826B2405700511407 /* ViewModelType.swift in Sources */,
 				B351E2D026C500A800DFD590 /* DishInformationStackView.swift in Sources */,
 				B3658C5A26B1362800B64504 /* DetailViewModel.swift in Sources */,
 				B3E7386426C0C54B00632855 /* SideDishRepository.swift in Sources */,
