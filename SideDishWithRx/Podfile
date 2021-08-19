@@ -10,13 +10,14 @@ target 'SideDishWithRx' do
     pod 'RxDataSources'
     pod 'SnapKit'
     pod 'Action'
-    pod 'RxTest'
-    pod 'RxBlocking'
+    
 
   # Pods for SideDishWithRx
 
   target 'SideDishWithRxTests' do
     inherit! :search_paths
+    pod 'RxBlocking'
+    pod 'RxTest'
     # Pods for testing
   end
 
