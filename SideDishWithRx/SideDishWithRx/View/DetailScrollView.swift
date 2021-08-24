@@ -10,7 +10,7 @@ import SnapKit
 
 final class DetailScrollView: UIScrollView {
 
-    let contentView: UIView = {
+    private let contentView: UIView = {
         var view = UIView()
         view.backgroundColor = .white
         return view
@@ -18,31 +18,31 @@ final class DetailScrollView: UIScrollView {
     
     let imagesScrollView = ImagesScrollView()
     
-    let dishInformationStackVIew = DishInformationStackView()
+    private let dishInformationStackVIew = DishInformationStackView()
     
-    let firstLine: UIView = {
+    private let firstLine: UIView = {
         var view = UIView()
         view.backgroundColor = .systemGray
         return view
     }()
     
-    let secondLine: UIView = {
+    private let secondLine: UIView = {
         var view = UIView()
         view.backgroundColor = .systemGray
         return view
     }()
     
-    let detailInformationStackView = DetailInformationStackView()
+    private let detailInformationStackView = DetailInformationStackView()
     
     let quantityStackView = QuantityStackView()
     
-    let thirdLine: UIView = {
+    private let thirdLine: UIView = {
         var view = UIView()
         view.backgroundColor = .systemGray
         return view
     }()
     
-    let priceTitle: UILabel = {
+    private let priceTitle: UILabel = {
         var label = UILabel()
         label.text = "총 주문금액"
         label.font = UIFont.systemFont(ofSize: 18)
@@ -57,7 +57,7 @@ final class DetailScrollView: UIScrollView {
         return label
     }()
     
-    let orderButton: UIButton = {
+    private let orderButton: UIButton = {
         var button = UIButton()
         button.setTitle("주문하기", for: .normal)
         button.backgroundColor = .systemGreen
@@ -66,7 +66,7 @@ final class DetailScrollView: UIScrollView {
         return button
     }()
     
-    let detailSectionStackView: UIStackView = {
+    private let detailSectionStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -107,6 +107,10 @@ final class DetailScrollView: UIScrollView {
     
     func configureDetailInformationStackView(point: String, info: String, fee: String) {
         detailInformationStackView.setUp(point: point, info: info, fee: fee)
+    }
+    
+    func addSubviewInDetailSectionStackView(view: UIImageView) {
+        detailSectionStackView.addArrangedSubview(view)
     }
 }
 

@@ -10,7 +10,7 @@ import SnapKit
 
 final class QuantityStackView: UIStackView {
     
-    let quantityTitle: UILabel = {
+    private let quantityTitle: UILabel = {
         var label = UILabel()
         label.text = "수량"
         return label
@@ -40,7 +40,7 @@ final class QuantityStackView: UIStackView {
         return button
     }()
     
-    let quantityControlStackView: UIStackView = {
+    private let quantityControlStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.layer.borderWidth = 1
         stackView.layer.borderColor = UIColor.systemGray.cgColor
@@ -50,7 +50,7 @@ final class QuantityStackView: UIStackView {
         return stackView
     }()
     
-    let buttonStackView: UIStackView = {
+    private let buttonStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill

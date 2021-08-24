@@ -10,20 +10,20 @@ import SnapKit
 
 final class DetailInformationStackView: UIStackView {
     
-    let reserveTitle: UILabel = {
+    private let reserveTitle: UILabel = {
         var label = UILabel()
         label.text = "적립금"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    let reserveLabel: UILabel = {
+    private let reserveLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    let reserveStackView: UIStackView = {
+    private let reserveStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -32,14 +32,14 @@ final class DetailInformationStackView: UIStackView {
         return stackView
     }()
     
-    let deliveryInformationTitle: UILabel = {
+    private let deliveryInformationTitle: UILabel = {
         var label = UILabel()
         label.text = "배송정보"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    let deliveryInformationLabel: UILabel = {
+    private let deliveryInformationLabel: UILabel = {
         var label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -47,7 +47,7 @@ final class DetailInformationStackView: UIStackView {
         return label
     }()
     
-    let deliveryInformationStackView: UIStackView = {
+    private let deliveryInformationStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -56,20 +56,20 @@ final class DetailInformationStackView: UIStackView {
         return stackView
     }()
     
-    let deliveryFeeTitle: UILabel = {
+    private let deliveryFeeTitle: UILabel = {
         var label = UILabel()
         label.text = "배송비"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    let deliveryFeeLabel: UILabel = {
+    private let deliveryFeeLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    let deliveryFeeStackView: UIStackView = {
+    private let deliveryFeeStackView: UIStackView = {
         var stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill

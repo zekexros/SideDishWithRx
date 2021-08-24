@@ -10,7 +10,7 @@ import SnapKit
 
 final class ImagesScrollView: UIScrollView {
 
-    let contentView = UIView()
+    private let contentView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
