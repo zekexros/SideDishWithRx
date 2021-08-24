@@ -10,26 +10,32 @@ import RxSwift
 import RxCocoa
 import Action
 import RxDataSources
+import NSObject_Rx
 
-class MainViewModel: NSObject, ViewModelType {
-    struct Input {
-        
-    }
+class MainViewModel: HasDisposeBag, ViewModelType {
     
-    struct Output {
-        
-    }
-    
+    var input = Input()
+    var output = Output()
     var sceneCoordinator: SceneCoordinatorType
     var repository: RepositoryType
-    var mainDishList = PublishSubject<[Dish]>()
-    var soupList = PublishSubject<[Dish]>()
-    var sideDishList = PublishSubject<[Dish]>()
-    var sections = PublishRelay<[SectionOfCustomData]>()
     
+
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType) {
         self.repository = repository
         self.sceneCoordinator = sceneCoordinator
+        
+        fetchDishes()
+            .subscribe { [weak self] data in
+                self?.output.sections.accept(data)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    struct Input {
+    }
+    
+    struct Output {
+        let sections = PublishRelay<[SectionOfCustomData]>()
     }
     
     lazy var transitionAction: Action<Dish, Void> = {
@@ -40,23 +46,12 @@ class MainViewModel: NSObject, ViewModelType {
         }
     }()
     
-    func fetchDishes() {
-        repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self)
-            .map { $0.body }
-            .subscribe(mainDishList)
-            .disposed(by: rx.disposeBag)
+    func fetchDishes() -> Observable<[SectionOfCustomData]> {
+        let mainDish = repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self).map{ $0.body}
+        let sideDish = repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self).map{ $0.body}
+        let soup = repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self).map{ $0.body}
         
-        repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self)
-            .map { $0.body }
-            .subscribe(sideDishList)
-            .disposed(by: rx.disposeBag)
-        
-        repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self)
-            .map { $0.body }
-            .subscribe(soupList)
-            .disposed(by: rx.disposeBag)
-        
-        Observable.combineLatest([mainDishList, sideDishList, soupList], resultSelector: { dishes -> [SectionOfCustomData] in
+        return Observable.combineLatest([mainDish, sideDish, soup], resultSelector: { dishes -> [SectionOfCustomData] in
             let dishes = [
                 SectionOfCustomData(header: "모두가 좋아하는 든든한 메인요리", items: dishes[0]),
                 SectionOfCustomData(header: "정성이 담긴 뜨끈뜨끈 국물요리", items: dishes[1]),
@@ -64,10 +59,6 @@ class MainViewModel: NSObject, ViewModelType {
             ]
             return dishes
         })
-        .subscribe(onNext: { [unowned self] dishes in
-            self.sections.accept(dishes)
-        })
-        .disposed(by: rx.disposeBag)
     }
     
     func fetchImage(url: URL) -> Observable<Data> {

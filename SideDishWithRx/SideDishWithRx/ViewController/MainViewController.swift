@@ -49,7 +49,6 @@ class MainViewController: UIViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAutoLayout()
-        viewModel.fetchDishes()
         configureDataSource(dataSource)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
         
@@ -61,7 +60,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
-        viewModel.sections
+        viewModel.output.sections
             .asDriver(onErrorJustReturn: [])
             .drive(mainDishListTableView.rx.items(dataSource: dataSource))
             .disposed(by: rx.disposeBag)
@@ -75,11 +74,6 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         mainDishListTableView.rx.separatorStyle.onNext(.none)
-    }
-    
-    @objc func refresh(refresh: UIRefreshControl) {
-        refresh.endRefreshing()
-        mainDishListTableView.reloadData()
     }
 }
 
