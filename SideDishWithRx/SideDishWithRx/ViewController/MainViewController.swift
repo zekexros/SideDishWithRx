@@ -12,17 +12,17 @@ import NSObject_Rx
 import RxDataSources
 import SnapKit
 
-class MainViewController: UIViewController, ViewModelBindableType {
+final class MainViewController: UIViewController, ViewModelBindableType {
     
     var viewModel: MainViewModel!
-    lazy var mainDishListTableView: UITableView = {
+    private lazy var mainDishListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DishTableViewCell.self, forCellReuseIdentifier: DishTableViewCell.cellID)
         self.view.addSubview(tableView)
         return tableView
     }()
     
-    lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
+    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
         
         Observable.just(item.image)
@@ -37,7 +37,7 @@ class MainViewController: UIViewController, ViewModelBindableType {
         return cell
     })
     
-    func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
+    private func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
             return dataSource.sectionModels[indexPath].header
         }

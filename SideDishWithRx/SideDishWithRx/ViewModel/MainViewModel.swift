@@ -12,7 +12,7 @@ import Action
 import RxDataSources
 import NSObject_Rx
 
-class MainViewModel: HasDisposeBag, ViewModelType {
+final class MainViewModel: HasDisposeBag, ViewModelType {
     
     var input = Input()
     var output = Output()
@@ -46,7 +46,7 @@ class MainViewModel: HasDisposeBag, ViewModelType {
         }
     }()
     
-    func fetchDishes() -> Observable<[SectionOfCustomData]> {
+    private func fetchDishes() -> Observable<[SectionOfCustomData]> {
         let mainDish = repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self).map{ $0.body}
         let sideDish = repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self).map{ $0.body}
         let soup = repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self).map{ $0.body}
