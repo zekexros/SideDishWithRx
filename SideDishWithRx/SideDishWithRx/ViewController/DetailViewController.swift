@@ -26,14 +26,24 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
     func bindViewModel() {
         setUpBackButtonItem()
         
-        viewModel.fetchDetailDish()
+        detailScrollView.setUpDishInformationStackView(title: viewModel.dish.title, description: viewModel.dish.description, nPrice: viewModel.dish.nPrice, sPrice: viewModel.dish.sPrice, badge: viewModel.dish.badge)
         
         Observable<String>.just(viewModel.dish.title)
             .asDriver(onErrorJustReturn: "")
             .drive(navigationItem.rx.title)
             .disposed(by: rx.disposeBag)
         
-        viewModel.fetchImages()
+        // input
+        detailScrollView.quantityStackView.upButton.rx.tap
+            .bind(to: viewModel.input.plus)
+            .disposed(by: rx.disposeBag)
+        
+        detailScrollView.quantityStackView.downButton.rx.tap
+            .bind(to: viewModel.input.minus)
+            .disposed(by: rx.disposeBag)
+        
+        // output
+        viewModel.output.images
             .observe(on: MainScheduler.instance)
             .map { UIImage(data: $0) }
             .map { image -> UIImageView in
@@ -51,10 +61,8 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             }
             .subscribe()
             .disposed(by: rx.disposeBag)
-            
-        detailScrollView.setUpDishInformationStackView(title: viewModel.dish.title, description: viewModel.dish.description, nPrice: viewModel.dish.nPrice, sPrice: viewModel.dish.sPrice, badge: viewModel.dish.badge)
         
-        viewModel.detailDish
+        viewModel.output.detailDish
             .map { ($0.data.point, $0.data.deliveryInfo, $0.data.deliveryFee) }
             .asDriver(onErrorJustReturn: ("", "", ""))
             .drive { [unowned self] (point, deliveryInfo, deliveryFee) in
@@ -62,43 +70,18 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             }
             .disposed(by: rx.disposeBag)
         
-        viewModel.quantity
+        viewModel.output.quantity
             .asDriver()
             .map { String($0) }
             .drive(detailScrollView.quantityStackView.quantityLabel.rx.text)
             .disposed(by: rx.disposeBag)
         
-        detailScrollView.quantityStackView.upButton.rx.tap
-            .map { [unowned self] _ in
-                self.viewModel.quantity.value + 1
-            }
-            .do { [unowned self] value in
-                let tempPrice = self.viewModel.convertStringToInt(price: viewModel.dish.sPrice)
-                let price = self.viewModel.convertIntToWon(price: tempPrice * value) + "원"
-                self.viewModel.price.accept(price)
-            }
-            .bind(to: viewModel.quantity)
-            .disposed(by: rx.disposeBag)
-        
-        detailScrollView.quantityStackView.downButton.rx.tap
-            .map { [unowned self] _ -> Int in
-                let value = self.viewModel.quantity.value - 1
-                return value < 1 ? 1 : value
-            }
-            .do { [unowned self] value in
-                let tempPrice = self.viewModel.convertStringToInt(price: viewModel.dish.sPrice)
-                let price = self.viewModel.convertIntToWon(price: tempPrice * value) + "원"
-                self.viewModel.price.accept(price)
-            }
-            .bind(to: viewModel.quantity)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.price
+        viewModel.output.price
             .asDriver(onErrorJustReturn: "")
             .drive(detailScrollView.priceLabel.rx.text)
             .disposed(by: rx.disposeBag)
             
-        viewModel.fetchDetailImages()
+        viewModel.output.detailImages
             .observe(on: MainScheduler.instance)
             .compactMap { UIImage(data: $0) }
             .map { image -> UIImageView in
@@ -110,7 +93,7 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
                 return imageView
             }
             .bind(onNext: { imageView in
-                self.detailScrollView.detailSectionStackView.addArrangedSubview(imageView)
+                self.detailScrollView.addSubviewInDetailSectionStackView(view: imageView)
             })
             .disposed(by: rx.disposeBag)
     }

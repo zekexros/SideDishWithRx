@@ -9,44 +9,85 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Action
+import NSObject_Rx
 
-class DetailViewModel: NSObject, ViewModelType {
+final class DetailViewModel: HasDisposeBag, ViewModelType {
     struct Input {
-        
+        let plus = PublishSubject<Void>()
+        let minus = PublishSubject<Void>()
     }
     
     struct Output {
-        
+        let detailDish = PublishRelay<DetailDish>()
+        let quantity = BehaviorRelay<Int>(value: 1)
+        let price: BehaviorRelay<String>
+        let images = PublishRelay<Data>()
+        let detailImages = PublishRelay<Data>()
     }
     
     var repository: RepositoryType
     var sceneCoordinator: SceneCoordinatorType
     let dish: Dish
-    let detailDish = PublishSubject<DetailDish>()
-    let quantity = BehaviorRelay<Int>(value: 1)
-    lazy var price = BehaviorRelay<String>(value: dish.sPrice)
+    var input = Input()
+    lazy var output = Output(price: BehaviorRelay<String>(value: dish.sPrice))
     
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType, model: Dish) {
         self.dish = model
         self.sceneCoordinator = sceneCoordinator
         self.repository = repository
+        
+        fetchDetailDish()
+            .bind(to: output.detailDish)
+            .disposed(by: disposeBag)
+        
+        fetchImages()
+            .bind(to: output.images)
+            .disposed(by: disposeBag)
+        
+        fetchDetailImages()
+            .bind(to: output.detailImages)
+            .disposed(by: disposeBag)
+        
+        //비즈니스 로직
+        input.plus
+            .map { [unowned self] _ in
+                output.quantity.value + 1
+            }
+            .do { [unowned self] value in
+                let tempPrice = self.convertStringToInt(price: dish.sPrice)
+                let price = self.convertIntToWon(price: tempPrice * value) + "원"
+                self.output.price.accept(price)
+            }
+            .bind(to: output.quantity)
+            .disposed(by: disposeBag)
+        
+        input.minus
+            .map { [unowned self] _ in
+                let value = output.quantity.value - 1
+                return value < 1 ? 1 : value
+            }
+            .do { [unowned self] value in
+                let tempPrice = self.convertStringToInt(price: dish.sPrice)
+                let price = self.convertIntToWon(price: tempPrice * value) + "원"
+                self.output.price.accept(price)
+            }
+            .bind(to: output.quantity)
+            .disposed(by: disposeBag)
     }
     
-    func fetchDetailDish() {
-        repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash, decodingType: DetailDish.self)
-            .subscribe(detailDish)
-            .disposed(by: rx.disposeBag)
+    private func fetchDetailDish() -> Observable<DetailDish> {
+        return repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash, decodingType: DetailDish.self)
     }
 
-    func fetchImages() -> Observable<Data> {
-        return detailDish.asObservable()
+    private func fetchImages() -> Observable<Data> {
+        return output.detailDish.asObservable()
             .flatMap { Observable.from($0.data.thumbImages) }
             .compactMap{ URL(string: $0) }
             .flatMap { self.repository.fetch(url: $0) }
     }
     
-    func fetchDetailImages() -> Observable<Data> {
-        return detailDish.asObservable()
+    private func fetchDetailImages() -> Observable<Data> {
+        return output.detailDish.asObservable()
             .flatMap { Observable.from($0.data.detailSection) }
             .compactMap{ URL(string: $0) }
             .flatMap { self.repository.fetch(url: $0) }
@@ -56,11 +97,11 @@ class DetailViewModel: NSObject, ViewModelType {
         return self.sceneCoordinator.close(animation: true).asObservable().map { _ in }
     }
     
-    func convertStringToInt(price: String) -> Int {
+    private func convertStringToInt(price: String) -> Int {
         return Int(price.filter{ $0.isNumber }) ?? 0
     }
     
-    func convertIntToWon(price: Int) -> String {
+    private func convertIntToWon(price: Int) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(from: NSNumber(value: price)) ?? "" + "원"

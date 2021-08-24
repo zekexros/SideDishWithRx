@@ -13,6 +13,8 @@ protocol ViewModelType {
     associatedtype Input
     associatedtype Output
     
+    var input: Input { get }
+    var output: Output { get }
     var sceneCoordinator: SceneCoordinatorType { get }
     var repository: RepositoryType { get }
 }
