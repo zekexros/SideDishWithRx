@@ -1,5 +1,5 @@
 PODS:
-  - Action (4.3.0):
+  - Action (5.0.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
   - Differentiator (5.0.0)
@@ -45,7 +45,7 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
-  Action: 9891cd1b0a9047557d7e58e8dfae743e19d08197
+  Action: 47f1825511907b4fcd79dd7a7db9526c20f78018
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   "NSObject+Rx": 61cf1f7306a73dcef8b36649198af0813ec18dfd
   RxBlocking: 0b29f7d2079109a8de49c411381bed7c33ef1eeb
@@ -56,6 +56,6 @@ SPEC CHECKSUMS:
   RxTest: 0c692fa672b694373ba86d2b00033595297a2831
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 5484c6e03cb92645774bced09fd7098f2d280a62
+PODFILE CHECKSUM: c8540486435f8dd755f2a28f5c4b4b656c146667
 
 COCOAPODS: 1.10.1
