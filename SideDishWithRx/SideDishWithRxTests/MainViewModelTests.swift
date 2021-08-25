@@ -7,21 +7,52 @@
 
 import XCTest
 import RxTest
+import RxSwift
+import RxBlocking
 
 @testable import SideDishWithRx
+
+class SideDishAPIStub: APIType {
+    func requestWithHashID<T>(path: EndPoint, id: String?, decodingType: T.Type) -> Observable<T> where T : Decodable {
+        var data = NSDataAsset(name: "")
+        switch path.path {
+        case .mainDish:
+            data = NSDataAsset(name: "MainDish")!
+        case .sideDish:
+            data = NSDataAsset(name: "SideDish")!
+        case .soup:
+            data = NSDataAsset(name: "Soup")!
+        case .detail:
+            break
+        }
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        let decoded = try! jsonDecoder.decode(decodingType, from: data!.data)
+        return Observable<T>.just(decoded)
+    }
+    
+    func request(url: URL) -> Observable<Data> {
+        
+        return Observable<Data>.just(Data(base64Encoded: "")!)
+    }
+}
 
 class MainViewModelTests: XCTestCase {
     private var mainViewModel: MainViewModel!
     private var sceneCoordinator: SceneCoordinator!
     private var repository: SideDishRepository!
     private var scheduler: TestScheduler!
+    private var disposeBag: DisposeBag!
+    private var sideDishAPIStub: SideDishAPIStub!
 
     override func setUp() {
         super.setUp()
         sceneCoordinator = SceneCoordinator(window: UIWindow())
-        repository = SideDishRepository(apiService: SideDishAPI())
+        sideDishAPIStub = SideDishAPIStub()
+        repository = SideDishRepository(apiService: sideDishAPIStub)
         mainViewModel = MainViewModel(sceneCoordinator: sceneCoordinator, repository: repository)
         scheduler = TestScheduler(initialClock: 0)
+        disposeBag = DisposeBag()
     }
 
     override func tearDown() {
@@ -29,15 +60,11 @@ class MainViewModelTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testFetchDishes() throws {
+        // when
+        let result = try! mainViewModel.fetchDishes().toBlocking().first()
         
+        // then
+        XCTAssert(!result!.isEmpty, "데이터가 존재합니다.")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
