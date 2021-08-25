@@ -21,6 +21,17 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         view.addSubview(detailScrollView)
         configureAutoLayout()
+        viewModel.fetchDetailDish()
+            .bind(to: viewModel.output.detailDish)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.fetchImages()
+            .bind(to: viewModel.output.images)
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.fetchDetailImages()
+            .bind(to: viewModel.output.detailImages)
+            .disposed(by: rx.disposeBag)
     }
     
     func bindViewModel() {

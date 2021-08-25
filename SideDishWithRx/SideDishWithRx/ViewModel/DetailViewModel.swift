@@ -36,18 +36,6 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
         self.sceneCoordinator = sceneCoordinator
         self.repository = repository
         
-        fetchDetailDish()
-            .bind(to: output.detailDish)
-            .disposed(by: disposeBag)
-        
-        fetchImages()
-            .bind(to: output.images)
-            .disposed(by: disposeBag)
-        
-        fetchDetailImages()
-            .bind(to: output.detailImages)
-            .disposed(by: disposeBag)
-        
         //비즈니스 로직
         input.plus
             .map { [unowned self] _ in
@@ -75,18 +63,18 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
             .disposed(by: disposeBag)
     }
     
-    private func fetchDetailDish() -> Observable<DetailDish> {
+    func fetchDetailDish() -> Observable<DetailDish> {
         return repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash, decodingType: DetailDish.self)
     }
 
-    private func fetchImages() -> Observable<Data> {
+    func fetchImages() -> Observable<Data> {
         return output.detailDish.asObservable()
             .flatMap { Observable.from($0.data.thumbImages) }
             .compactMap{ URL(string: $0) }
             .flatMap { self.repository.fetch(url: $0) }
     }
     
-    private func fetchDetailImages() -> Observable<Data> {
+    func fetchDetailImages() -> Observable<Data> {
         return output.detailDish.asObservable()
             .flatMap { Observable.from($0.data.detailSection) }
             .compactMap{ URL(string: $0) }

@@ -23,12 +23,6 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType) {
         self.repository = repository
         self.sceneCoordinator = sceneCoordinator
-        
-        fetchDishes()
-            .subscribe { [weak self] data in
-                self?.output.sections.accept(data)
-            }
-            .disposed(by: disposeBag)
     }
     
     struct Input {
@@ -46,7 +40,7 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
         }
     }()
     
-    private func fetchDishes() -> Observable<[SectionOfCustomData]> {
+    func fetchDishes() -> Observable<[SectionOfCustomData]> {
         let mainDish = repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self).map{ $0.body}
         let sideDish = repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self).map{ $0.body}
         let soup = repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self).map{ $0.body}

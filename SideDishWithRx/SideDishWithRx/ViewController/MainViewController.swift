@@ -50,8 +50,12 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         configureAutoLayout()
         configureDataSource(dataSource)
+        viewModel.fetchDishes()
+            .subscribe { [unowned self] data in
+                self.viewModel.output.sections.accept(data)
+            }
+            .disposed(by: rx.disposeBag)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
