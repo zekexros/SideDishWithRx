@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "Soup.json",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
