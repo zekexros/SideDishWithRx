@@ -39,26 +39,26 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
         //비즈니스 로직
         input.plus
             .map { [unowned self] _ in
-                output.quantity.value + 1
+                self.output.quantity.value + 1
             }
-            .do { [unowned self] value in
-                let tempPrice = self.convertStringToInt(price: dish.sPrice)
+        .do (onNext: { [unowned self] value in
+            let tempPrice = self.convertStringToInt(price: self.dish.sPrice)
                 let price = self.convertIntToWon(price: tempPrice * value) + "원"
                 self.output.price.accept(price)
-            }
+            })
             .bind(to: output.quantity)
             .disposed(by: disposeBag)
         
         input.minus
             .map { [unowned self] _ in
-                let value = output.quantity.value - 1
+                let value = self.output.quantity.value - 1
                 return value < 1 ? 1 : value
             }
-            .do { [unowned self] value in
-                let tempPrice = self.convertStringToInt(price: dish.sPrice)
+        .do (onNext: { [unowned self] value in
+            let tempPrice = self.convertStringToInt(price: self.dish.sPrice)
                 let price = self.convertIntToWon(price: tempPrice * value) + "원"
                 self.output.price.accept(price)
-            }
+            })
             .bind(to: output.quantity)
             .disposed(by: disposeBag)
     }

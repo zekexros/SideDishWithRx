@@ -12,7 +12,7 @@ import NSObject_Rx
 import SnapKit
 
 final class DetailViewController: UIViewController, ViewModelBindableType {
-
+    
     var viewModel: DetailViewModel!
     
     private let detailScrollView = DetailScrollView()
@@ -61,24 +61,25 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
                 let imageView = UIImageView(image: image)
                 imageView.contentMode = .scaleAspectFit
                 return imageView
-            }
-            .enumerated()
-            .do { [unowned self] (index, imageView) in
-                let xPosition = self.view.frame.width * CGFloat(index)
-                let bounds = self.detailScrollView.imagesScrollView.bounds
-                imageView.frame = CGRect(x: xPosition, y: 0, width: bounds.width, height: bounds.height)
-                self.detailScrollView.imagesScrollView.contentSize.width = self.view.frame.width * CGFloat(index+1)
-                self.detailScrollView.configureImagesScrollView(view: imageView)
-            }
+        }
+        .enumerated()
+        .do(onNext: { (index, imageView) in
+            let xPosition = self.view.frame.width * CGFloat(index)
+            let bounds = self.detailScrollView.imagesScrollView.bounds
+            imageView.frame = CGRect(x: xPosition, y: 0, width: bounds.width, height: bounds.height)
+            self.detailScrollView.imagesScrollView.contentSize.width = self.view.frame.width * CGFloat(index+1)
+            self.detailScrollView.configureImagesScrollView(view: imageView)
+        })
+            
             .subscribe()
             .disposed(by: rx.disposeBag)
         
         viewModel.output.detailDish
             .map { ($0.data.point, $0.data.deliveryInfo, $0.data.deliveryFee) }
             .asDriver(onErrorJustReturn: ("", "", ""))
-            .drive { [unowned self] (point, deliveryInfo, deliveryFee) in
+            .drive(onNext: { [unowned self] (point, deliveryInfo, deliveryFee) in
                 self.detailScrollView.configureDetailInformationStackView(point: point, info: deliveryInfo, fee: deliveryFee)
-            }
+            })
             .disposed(by: rx.disposeBag)
         
         viewModel.output.quantity

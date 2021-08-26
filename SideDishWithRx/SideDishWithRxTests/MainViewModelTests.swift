@@ -14,6 +14,13 @@ import RxBlocking
 
 class SideDishAPIStub: APIType {
     func requestWithHashID<T>(path: EndPoint, id: String?, decodingType: T.Type) -> Observable<T> where T : Decodable {
+        var sampleData: Data {
+            Data(
+                """
+                aa
+                """.utf8
+            )
+        }
         var data = NSDataAsset(name: "")
         switch path.path {
         case .mainDish:
@@ -62,6 +69,7 @@ class MainViewModelTests: XCTestCase {
 
     func testFetchDishes() throws {
         // when
+        
         let result = try! mainViewModel.fetchDishes().toBlocking().first()
         
         // then

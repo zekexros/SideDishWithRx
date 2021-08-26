@@ -32,10 +32,17 @@ class DetailViewModelTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+        sceneCoordinator = nil
+        sideDishAPIStub = nil
+        repository = nil
+        dish = nil
+        detailViewModel = nil
+        scheduler = nil
+        disposeBag = nil
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testIncreaseButton() {
+    func testIncreaseQuantity() {
         // when
         detailViewModel.input.plus.onNext(())
         let quantity = try! detailViewModel.output.quantity.toBlocking().first()
@@ -44,8 +51,13 @@ class DetailViewModelTests: XCTestCase {
         XCTAssertEqual(quantity!, 2)
     }
     
-    func testDecreaseQunatity() {
+    func testDecreaseQuantity() {
+        // when
+        detailViewModel.input.minus.onNext(())
+        let quantity = try! detailViewModel.output.quantity.toBlocking().first()
         
+        // then
+        XCTAssertEqual(quantity!, 1)
     }
 
 

@@ -27,10 +27,10 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         
         Observable.just(item.image)
             .compactMap { URL(string: $0) }
-            .flatMap{ viewModel.fetchImage(url: $0) }
+            .flatMap{ [unowned self] url in self.viewModel.fetchImage(url: url) }
             .map{ UIImage(data: $0) }
             .bind(to: cell.dishPhotography.rx.image)
-            .disposed(by: rx.disposeBag)
+            .disposed(by: self.rx.disposeBag)
 
         cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
 
@@ -51,9 +51,9 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         configureAutoLayout()
         configureDataSource(dataSource)
         viewModel.fetchDishes()
-            .subscribe { [unowned self] data in
+            .subscribe(onNext: { (data) in
                 self.viewModel.output.sections.accept(data)
-            }
+            })
             .disposed(by: rx.disposeBag)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
     }

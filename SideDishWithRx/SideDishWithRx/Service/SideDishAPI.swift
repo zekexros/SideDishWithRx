@@ -35,6 +35,6 @@ final class SideDishAPI: NSObject, APIType {
     
     func request(url: URL) -> Observable<Data> {
         let urlRequest = URLRequest(url: url)
-        return urlSession.rx.data(request: urlRequest)
+        return urlSession.data(request: urlRequest)
     }
 }
