@@ -27,8 +27,7 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         
         Observable.just(item.image)
             .compactMap { URL(string: $0) }
-            .flatMap{ viewModel.fetchImage(url: $0) }
-            .map{ UIImage(data: $0) }
+            .flatMap{ viewModel.repository.fetchImage(url: $0) }
             .bind(to: cell.dishPhotography.rx.image)
             .disposed(by: rx.disposeBag)
 
@@ -50,11 +49,6 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         configureAutoLayout()
         configureDataSource(dataSource)
-        viewModel.fetchDishes()
-            .subscribe { [unowned self] data in
-                self.viewModel.output.sections.accept(data)
-            }
-            .disposed(by: rx.disposeBag)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
     }
     
@@ -64,11 +58,16 @@ final class MainViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
+        // input
+        viewModel.input.isViewDidLoad.accept(true)
+        
+        // output
         viewModel.output.sections
             .asDriver(onErrorJustReturn: [])
             .drive(mainDishListTableView.rx.items(dataSource: dataSource))
             .disposed(by: rx.disposeBag)
         
+        // transition
         Observable.zip(mainDishListTableView.rx.modelSelected(Dish.self), mainDishListTableView.rx.itemSelected)
             .do(onNext: { (dish, indexPath) in
                 self.mainDishListTableView.deselectRow(at: indexPath, animated: true)

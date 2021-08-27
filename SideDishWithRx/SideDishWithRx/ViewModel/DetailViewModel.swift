@@ -13,6 +13,7 @@ import NSObject_Rx
 
 final class DetailViewModel: HasDisposeBag, ViewModelType {
     struct Input {
+        let isViewDidLoad = BehaviorRelay<Bool>(value: false)
         let plus = PublishSubject<Void>()
         let minus = PublishSubject<Void>()
     }
@@ -37,6 +38,32 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
         self.repository = repository
         
         //비즈니스 로직
+        input.isViewDidLoad
+            .filter { $0 }
+            .flatMap { [unowned self] _ in
+                self.repository.fetchDetailDish(endPoint: EndPoint(path: .detail), hashID: self.dish.detailHash) }
+            .bind(to: output.detailDish)
+            .disposed(by: disposeBag)
+        
+        input.isViewDidLoad
+            .filter { $0 }
+            .flatMap { [unowned self] _ in self.output.detailDish }
+            .flatMap { [unowned self] detailDish in
+                self.repository.fetchThumbImagesData(detailDish: detailDish)
+            }
+            .bind(to: output.images)
+            .disposed(by: disposeBag)
+        
+        input.isViewDidLoad
+            .filter { $0 }
+            .flatMap { [unowned self] _ in self.output.detailDish }
+            .flatMap { [unowned self] detailDish in
+                self.repository.fetchDetailSectionImagesData(detailDish: detailDish)
+            }
+            .bind(to: output.detailImages)
+            .disposed(by: disposeBag)
+
+        
         input.plus
             .map { [unowned self] _ in
                 output.quantity.value + 1
@@ -62,24 +89,20 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
             .bind(to: output.quantity)
             .disposed(by: disposeBag)
     }
-    
-    func fetchDetailDish() -> Observable<DetailDish> {
-        return repository.fetch(path: EndPoint(path: .detail), id: dish.detailHash, decodingType: DetailDish.self)
-    }
 
-    func fetchImages() -> Observable<Data> {
-        return output.detailDish.asObservable()
-            .flatMap { Observable.from($0.data.thumbImages) }
-            .compactMap{ URL(string: $0) }
-            .flatMap { self.repository.fetch(url: $0) }
-    }
+//    func fetchImages() -> Observable<Data> {
+//        return output.detailDish.asObservable()
+//            .flatMap { Observable.from($0.data.thumbImages) }
+//            .compactMap{ URL(string: $0) }
+//            .flatMap { self.repository.fetch(url: $0) }
+//    }
     
-    func fetchDetailImages() -> Observable<Data> {
-        return output.detailDish.asObservable()
-            .flatMap { Observable.from($0.data.detailSection) }
-            .compactMap{ URL(string: $0) }
-            .flatMap { self.repository.fetch(url: $0) }
-    }
+//    func fetchDetailImages() -> Observable<Data> {
+//        return output.detailDish.asObservable()
+//            .flatMap { Observable.from($0.data.detailSection) }
+//            .compactMap{ URL(string: $0) }
+//            .flatMap { self.repository.fetch(url: $0) }
+//    }
 
     lazy var popAction = CocoaAction { [unowned self] in
         return self.sceneCoordinator.close(animation: true).asObservable().map { _ in }

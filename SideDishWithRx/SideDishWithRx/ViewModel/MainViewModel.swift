@@ -23,9 +23,21 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType) {
         self.repository = repository
         self.sceneCoordinator = sceneCoordinator
+        
+        // 비즈니스 로직
+        input.isViewDidLoad
+            .filter { $0 }
+            .flatMap { _ in
+                self.fetchDishes()
+            }
+            .catchAndReturn([])
+            .bind(to: output.sections)
+            .disposed(by: disposeBag)
+            
     }
     
     struct Input {
+        let isViewDidLoad = BehaviorRelay<Bool>(value: false)
     }
     
     struct Output {
@@ -41,9 +53,11 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     }()
     
     func fetchDishes() -> Observable<[SectionOfCustomData]> {
-        let mainDish = repository.fetch(path: EndPoint(path: .mainDish), id: nil, decodingType: Dishes.self).map{ $0.body}
-        let sideDish = repository.fetch(path: EndPoint(path: .sideDish), id: nil, decodingType: Dishes.self).map{ $0.body}
-        let soup = repository.fetch(path: EndPoint(path: .soup), id: nil, decodingType: Dishes.self).map{ $0.body}
+        let mainDish = repository.fetchDish(endPoint: EndPoint(path: .mainDish))
+        
+        let sideDish = repository.fetchDish(endPoint: EndPoint(path: .sideDish))
+        
+        let soup = repository.fetchDish(endPoint: EndPoint(path: .soup))
         
         return Observable.combineLatest([mainDish, sideDish, soup], resultSelector: { dishes -> [SectionOfCustomData] in
             let dishes = [
@@ -54,9 +68,4 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
             return dishes
         })
     }
-    
-    func fetchImage(url: URL) -> Observable<Data> {
-        return repository.fetch(url: url)
-    }
-    
 }

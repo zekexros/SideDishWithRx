@@ -21,17 +21,6 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
         super.viewDidLoad()
         view.addSubview(detailScrollView)
         configureAutoLayout()
-        viewModel.fetchDetailDish()
-            .bind(to: viewModel.output.detailDish)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.fetchImages()
-            .bind(to: viewModel.output.images)
-            .disposed(by: rx.disposeBag)
-        
-        viewModel.fetchDetailImages()
-            .bind(to: viewModel.output.detailImages)
-            .disposed(by: rx.disposeBag)
     }
     
     func bindViewModel() {
@@ -45,6 +34,8 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         // input
+        viewModel.input.isViewDidLoad.accept(true)
+        
         detailScrollView.quantityStackView.upButton.rx.tap
             .bind(to: viewModel.input.plus)
             .disposed(by: rx.disposeBag)
@@ -112,7 +103,6 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = false
-        
     }
     
     private func setUpBackButtonItem() {
