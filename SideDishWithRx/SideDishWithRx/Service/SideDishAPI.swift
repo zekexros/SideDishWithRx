@@ -10,21 +10,42 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+}
+
 protocol APIType {
-    func requestWithHashID<T: Decodable>(path: EndPoint, id: String?, decodingType: T.Type) -> Observable<T>
+    func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
+    func getRequestWithHashID(endPoint: EndPoint, hashID: String, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
+    func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T>
     func request(url: URL) -> Observable<Data>
 }
 
 final class SideDishAPI: NSObject, APIType {
-    private let mainDishList = BehaviorRelay<[Dish]>(value: [])
-    private let soupList = BehaviorRelay<[Dish]>(value: [])
-    private let sideDishList = BehaviorRelay<[Dish]>(value: [])
     private let urlSession = URLSession.shared
     
-    func requestWithHashID<T: Decodable>(path: EndPoint, id: String? = nil, decodingType: T.Type) -> Observable<T> {
-        let url = path.url(hashID: id)
-        let request = URLRequest(url: url!)
-        return urlSession.rx.data(request: request)
+    func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
+        
+        let url = endPoint.url()
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.rawValue
+        
+        return Observable<URLRequest>.just(request)
+    }
+    
+    func getRequestWithHashID(endPoint: EndPoint, hashID: String, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
+        let url = endPoint.url(hashID: hashID)
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.rawValue
+        
+        return Observable<URLRequest>.just(request)
+    }
+    
+    func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T> {
+        return urlSession.rx.data(request: urlRequest)
             .map { data -> T in
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
