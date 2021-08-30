@@ -34,7 +34,9 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         // input
-        viewModel.input.isViewDidLoad.accept(true)
+        viewModel.input.isFetchDetailDish.accept(true)
+        viewModel.input.isFetchThumbImagesData.accept(true)
+        viewModel.input.isFetchDetailSectionImagesData.accept(true)
         
         detailScrollView.quantityStackView.upButton.rx.tap
             .bind(to: viewModel.input.plus)

@@ -13,7 +13,9 @@ import NSObject_Rx
 
 final class DetailViewModel: HasDisposeBag, ViewModelType {
     struct Input {
-        let isViewDidLoad = BehaviorRelay<Bool>(value: false)
+        let isFetchDetailDish = BehaviorRelay<Bool>(value: false)
+        let isFetchThumbImagesData = BehaviorRelay<Bool>(value: false)
+        let isFetchDetailSectionImagesData = BehaviorRelay<Bool>(value: false)
         let plus = PublishSubject<Void>()
         let minus = PublishSubject<Void>()
     }
@@ -38,14 +40,14 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
         self.repository = repository
         
         //비즈니스 로직
-        input.isViewDidLoad
+        input.isFetchDetailDish
             .filter { $0 }
             .flatMap { [unowned self] _ in
                 self.repository.fetchDetailDish(endPoint: EndPoint(path: .detail), hashID: self.dish.detailHash) }
             .bind(to: output.detailDish)
             .disposed(by: disposeBag)
         
-        input.isViewDidLoad
+        input.isFetchThumbImagesData
             .filter { $0 }
             .flatMap { [unowned self] _ in self.output.detailDish }
             .flatMap { [unowned self] detailDish in
@@ -54,7 +56,7 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
             .bind(to: output.images)
             .disposed(by: disposeBag)
         
-        input.isViewDidLoad
+        input.isFetchDetailSectionImagesData
             .filter { $0 }
             .flatMap { [unowned self] _ in self.output.detailDish }
             .flatMap { [unowned self] detailDish in
