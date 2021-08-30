@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4996F0C826B2405700511407 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4996F0C726B2405700511407 /* ViewModelType.swift */; };
 		93AA2D9C618B9CA88674A657 /* Pods_SideDishWithRx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C260B82F925C7837C943FD /* Pods_SideDishWithRx.framework */; };
+		B30C411F26DC92500094732D /* SideDishAPIStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30C411E26DC92500094732D /* SideDishAPIStub.swift */; };
 		B315776526B397E9001BEB3E /* Dishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315776426B397E9001BEB3E /* Dishes.swift */; };
 		B315776726B3A568001BEB3E /* SectionOfCustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315776626B3A568001BEB3E /* SectionOfCustomData.swift */; };
 		B31E374C26C6069B00EDB7D6 /* DetailInformationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31E374B26C6069B00EDB7D6 /* DetailInformationStackView.swift */; };
@@ -32,7 +33,6 @@
 		B3708BFB26AE85AA0077CBE3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708BFA26AE85AA0077CBE3 /* MainViewController.swift */; };
 		B3708C0026AE85AC0077CBE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3708BFF26AE85AC0077CBE3 /* Assets.xcassets */; };
 		B3708C0326AE85AC0077CBE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3708C0126AE85AC0077CBE3 /* LaunchScreen.storyboard */; };
-		B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */; };
 		B3708C1926AE85AC0077CBE3 /* SideDishWithRxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */; };
 		B3ACD9FA26CC093D008D5C77 /* MainViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ACD9F926CC093D008D5C77 /* MainViewModelTests.swift */; };
 		B3B1A68C26D64CB400F9997A /* DetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B1A68B26D64CB400F9997A /* DetailViewModelTests.swift */; };
@@ -72,6 +72,7 @@
 		51042BCA88D6AA31A110BBE4 /* Pods-SideDishWithRx-SideDishWithRxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRx-SideDishWithRxTests.debug.xcconfig"; path = "Target Support Files/Pods-SideDishWithRx-SideDishWithRxTests/Pods-SideDishWithRx-SideDishWithRxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		82D2EA41F6E7918FD4CCBF68 /* Pods_SideDishWithRx_SideDishWithRxUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SideDishWithRx_SideDishWithRxUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A18A5D228069E4D3CE075F4 /* Pods-SideDishWithRxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SideDishWithRxTests.release.xcconfig"; path = "Target Support Files/Pods-SideDishWithRxTests/Pods-SideDishWithRxTests.release.xcconfig"; sourceTree = "<group>"; };
+		B30C411E26DC92500094732D /* SideDishAPIStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishAPIStub.swift; sourceTree = "<group>"; };
 		B315776426B397E9001BEB3E /* Dishes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dishes.swift; sourceTree = "<group>"; };
 		B315776626B3A568001BEB3E /* SectionOfCustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionOfCustomData.swift; sourceTree = "<group>"; };
 		B31E374B26C6069B00EDB7D6 /* DetailInformationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInformationStackView.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		B3708C0226AE85AC0077CBE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3708C0426AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3708C0926AE85AC0077CBE3 /* SideDishWithRxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SideDishWithRxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishWithRxTests.swift; sourceTree = "<group>"; };
 		B3708C0F26AE85AC0077CBE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3708C1426AE85AC0077CBE3 /* SideDishWithRxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SideDishWithRxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3708C1826AE85AC0077CBE3 /* SideDishWithRxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishWithRxUITests.swift; sourceTree = "<group>"; };
@@ -265,9 +265,9 @@
 		B3708C0C26AE85AC0077CBE3 /* SideDishWithRxTests */ = {
 			isa = PBXGroup;
 			children = (
-				B3708C0D26AE85AC0077CBE3 /* SideDishWithRxTests.swift */,
 				B3ACD9F926CC093D008D5C77 /* MainViewModelTests.swift */,
 				B3B1A68B26D64CB400F9997A /* DetailViewModelTests.swift */,
+				B30C411E26DC92500094732D /* SideDishAPIStub.swift */,
 				B3708C0F26AE85AC0077CBE3 /* Info.plist */,
 			);
 			path = SideDishWithRxTests;
@@ -594,7 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3708C0E26AE85AC0077CBE3 /* SideDishWithRxTests.swift in Sources */,
+				B30C411F26DC92500094732D /* SideDishAPIStub.swift in Sources */,
 				B3ACD9FA26CC093D008D5C77 /* MainViewModelTests.swift in Sources */,
 				B3B1A68C26D64CB400F9997A /* DetailViewModelTests.swift in Sources */,
 			);
