@@ -22,7 +22,7 @@ class DetailViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sceneCoordinator = SceneCoordinator(window: UIWindow())
-        sideDishAPIStub = SideDishAPIStub()
+        sideDishAPIStub = SideDishAPIStub(nameOfJSONFile: "DetailDish")
         repository = SideDishRepository(apiService: sideDishAPIStub)
         dish = Dish(detailHash: "HBDEF", image: "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg", alt: "오리 주물럭_반조리", deliveryType: ["새벽배송", "전국택배"], title: "오리 주물럭_반조리", description: "감칠맛 나는 매콤한 양념", nPrice: "15,800원", sPrice: "12,640원", badge: ["런칭특가"])
         

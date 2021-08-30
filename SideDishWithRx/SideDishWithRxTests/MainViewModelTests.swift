@@ -22,7 +22,7 @@ class MainViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sceneCoordinator = SceneCoordinator(window: UIWindow())
-        sideDishAPIStub = SideDishAPIStub()
+        sideDishAPIStub = SideDishAPIStub(nameOfJSONFile: "MainDish")
         repository = SideDishRepository(apiService: sideDishAPIStub)
         disposeBag = DisposeBag()
     }

@@ -10,9 +10,14 @@ import RxSwift
 
 @testable import SideDishWithRx
 
-class SideDishAPIStub: APIType {
+final class SideDishAPIStub: APIType {
     var requestParam = ReplaySubject<(url: URL, method: String, query: String?)>.create(bufferSize: 3)
     var requestParamForDetailDish = PublishSubject<(url: URL, method: String, query: String?)>()
+    private var nameOfJSONFile = ""
+    
+    init (nameOfJSONFile: String) {
+        self.nameOfJSONFile = nameOfJSONFile
+    }
     
     func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest> {
         requestParam.onNext((endPoint.url(), httpMethod.rawValue, query))
@@ -31,7 +36,7 @@ class SideDishAPIStub: APIType {
     }
     
     func request<T>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T> where T : Decodable {
-        let data = NSDataAsset(name: "DetailDish")
+        let data = NSDataAsset(name: nameOfJSONFile)
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         let decoded = try! jsonDecoder.decode(decodingType, from: data!.data)
