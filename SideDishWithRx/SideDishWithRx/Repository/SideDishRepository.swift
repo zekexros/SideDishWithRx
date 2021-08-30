@@ -39,20 +39,24 @@ final class SideDishRepository: RepositoryType {
     }
     
     func fetchImage(url: URL) -> Observable<UIImage?> {
-        return apiService.request(url: url).map { UIImage(data: $0) }
+        return apiService.getRequestWithURL(url: url)
+            .flatMap{ [unowned self] in self.apiService.request(urlRequest: $0) }
+            .map { UIImage(data: $0) }
     }
     
     func fetchThumbImagesData(detailDish: DetailDish) -> Observable<Data> {
         Observable<DetailDish>.just(detailDish)
             .flatMap { Observable<String>.from($0.data.thumbImages) }
             .compactMap{ URL(string: $0) }
-            .flatMap { [unowned self] url in self.apiService.request(url: url) }
+            .flatMap { [unowned self] in self.apiService.getRequestWithURL(url: $0) }
+            .flatMap { [unowned self] in self.apiService.request(urlRequest: $0) }
     }
     
     func fetchDetailSectionImagesData(detailDish: DetailDish) -> Observable<Data> {
         Observable<DetailDish>.just(detailDish)
             .flatMap { Observable<String>.from($0.data.detailSection) }
             .compactMap{ URL(string: $0) }
-            .flatMap { [unowned self] url in self.apiService.request(url: url) }
+            .flatMap { [unowned self] in self.apiService.getRequestWithURL(url: $0) }
+            .flatMap { [unowned self] in self.apiService.request(urlRequest: $0) }
     }
 }

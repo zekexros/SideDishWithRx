@@ -20,8 +20,9 @@ enum HTTPMethod: String {
 protocol APIType {
     func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
     func getRequestWithHashID(endPoint: EndPoint, hashID: String, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
+    func getRequestWithURL(url: URL) -> Observable<URLRequest>
     func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T>
-    func request(url: URL) -> Observable<Data>
+    func request(urlRequest: URLRequest) -> Observable<Data>
 }
 
 final class SideDishAPI: NSObject, APIType {
@@ -44,6 +45,11 @@ final class SideDishAPI: NSObject, APIType {
         return Observable<URLRequest>.just(request)
     }
     
+    func getRequestWithURL(url: URL) -> Observable<URLRequest> {
+        let request = URLRequest(url: url)
+        return Observable<URLRequest>.just(request)
+    }
+    
     func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T> {
         return urlSession.rx.data(request: urlRequest)
             .map { data -> T in
@@ -54,8 +60,7 @@ final class SideDishAPI: NSObject, APIType {
             }
     }
     
-    func request(url: URL) -> Observable<Data> {
-        let urlRequest = URLRequest(url: url)
+    func request(urlRequest: URLRequest) -> Observable<Data> {
         return urlSession.rx.data(request: urlRequest)
     }
 }
