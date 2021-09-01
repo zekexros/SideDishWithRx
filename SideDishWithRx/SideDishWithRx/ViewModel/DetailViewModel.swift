@@ -26,13 +26,14 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
         let price: BehaviorRelay<String>
         let images = PublishRelay<Data>()
         let detailImages = PublishRelay<Data>()
+        let title: BehaviorRelay<String>
     }
     
     var repository: RepositoryType
     var sceneCoordinator: SceneCoordinatorType
     let dish: Dish
     var input = Input()
-    lazy var output = Output(price: BehaviorRelay<String>(value: dish.sPrice))
+    lazy var output = Output(price: BehaviorRelay<String>(value: dish.sPrice), title: BehaviorRelay<String>(value: dish.title))
     
     init(sceneCoordinator: SceneCoordinatorType, repository: RepositoryType, model: Dish) {
         self.dish = model
@@ -91,20 +92,6 @@ final class DetailViewModel: HasDisposeBag, ViewModelType {
             .bind(to: output.quantity)
             .disposed(by: disposeBag)
     }
-
-//    func fetchImages() -> Observable<Data> {
-//        return output.detailDish.asObservable()
-//            .flatMap { Observable.from($0.data.thumbImages) }
-//            .compactMap{ URL(string: $0) }
-//            .flatMap { self.repository.fetch(url: $0) }
-//    }
-    
-//    func fetchDetailImages() -> Observable<Data> {
-//        return output.detailDish.asObservable()
-//            .flatMap { Observable.from($0.data.detailSection) }
-//            .compactMap{ URL(string: $0) }
-//            .flatMap { self.repository.fetch(url: $0) }
-//    }
 
     lazy var popAction = CocoaAction { [unowned self] in
         return self.sceneCoordinator.close(animation: true).asObservable().map { _ in }

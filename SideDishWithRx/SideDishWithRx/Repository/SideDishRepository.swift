@@ -25,14 +25,14 @@ final class SideDishRepository: RepositoryType {
     }
     
     func fetchDish(endPoint: EndPoint) -> Observable<[Dish]> {
-        return apiService.getRequest(endPoint: endPoint, httpMethod: .get, query: nil)
+        return apiService.getRequest(endPoint: endPoint, hashID: nil, httpMethod: .get, query: nil)
             .flatMap { [unowned self] urlRequest in
                 apiService.request(urlRequest: urlRequest, decodingType: Dishes.self).map { $0.body }
             }
     }
     
     func fetchDetailDish(endPoint: EndPoint, hashID: String) -> Observable<DetailDish> {
-        return apiService.getRequestWithHashID(endPoint: endPoint, hashID: hashID, httpMethod: .get, query: nil)
+        return apiService.getRequest(endPoint: endPoint, hashID: hashID, httpMethod: .get, query: nil)
             .flatMap { [unowned self] urlRequest in
                 apiService.request(urlRequest: urlRequest, decodingType: DetailDish.self)
             }

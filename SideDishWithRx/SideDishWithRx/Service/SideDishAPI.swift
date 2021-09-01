@@ -18,8 +18,7 @@ enum HTTPMethod: String {
 }
 
 protocol APIType {
-    func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
-    func getRequestWithHashID(endPoint: EndPoint, hashID: String, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
+    func getRequest(endPoint: EndPoint, hashID: String?, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
     func getRequestWithURL(url: URL) -> Observable<URLRequest>
     func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T>
     func request(urlRequest: URLRequest) -> Observable<Data>
@@ -28,23 +27,15 @@ protocol APIType {
 final class SideDishAPI: NSObject, APIType {
     private let urlSession = URLSession.shared
     
-    func getRequest(endPoint: EndPoint, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
+    func getRequest(endPoint: EndPoint, hashID: String? = nil, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
+        let url = hashID == nil ? endPoint.url() : endPoint.url(hashID: hashID)
         
-        let url = endPoint.url()
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         
         return Observable<URLRequest>.just(request)
     }
-    
-    func getRequestWithHashID(endPoint: EndPoint, hashID: String, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
-        let url = endPoint.url(hashID: hashID)
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.rawValue
-        
-        return Observable<URLRequest>.just(request)
-    }
-    
+
     func getRequestWithURL(url: URL) -> Observable<URLRequest> {
         let request = URLRequest(url: url)
         return Observable<URLRequest>.just(request)

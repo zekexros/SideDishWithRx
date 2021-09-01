@@ -61,9 +61,9 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
         
         return Observable.combineLatest([mainDish, sideDish, soup], resultSelector: { dishes -> [SectionOfCustomData] in
             let dishes = [
-                SectionOfCustomData(header: "모두가 좋아하는 든든한 메인요리", items: dishes[0]),
-                SectionOfCustomData(header: "정성이 담긴 뜨끈뜨끈 국물요리", items: dishes[1]),
-                SectionOfCustomData(header: "식탁을 풍성하게 하는 정갈한 밑반찬", items: dishes[2])
+                SectionOfCustomData(header: SectionHeader.mainDish.value, items: dishes[0]),
+                SectionOfCustomData(header: SectionHeader.sideSide.value, items: dishes[1]),
+                SectionOfCustomData(header: SectionHeader.soup.value, items: dishes[2])
             ]
             return dishes
         })

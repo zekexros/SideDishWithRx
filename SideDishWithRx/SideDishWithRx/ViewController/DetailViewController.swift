@@ -27,12 +27,7 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
         setUpBackButtonItem()
         
         detailScrollView.setUpDishInformationStackView(title: viewModel.dish.title, description: viewModel.dish.description, nPrice: viewModel.dish.nPrice, sPrice: viewModel.dish.sPrice, badge: viewModel.dish.badge)
-        
-        Observable<String>.just(viewModel.dish.title)
-            .asDriver(onErrorJustReturn: "")
-            .drive(navigationItem.rx.title)
-            .disposed(by: rx.disposeBag)
-        
+
         // input
         viewModel.input.isFetchDetailDish.accept(true)
         viewModel.input.isFetchThumbImagesData.accept(true)
@@ -47,6 +42,10 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
             .disposed(by: rx.disposeBag)
         
         // output
+        viewModel.output.title
+            .bind(to: navigationItem.rx.title)
+            .disposed(by: rx.disposeBag)
+        
         viewModel.output.images
             .observe(on: MainScheduler.instance)
             .map { UIImage(data: $0) }
