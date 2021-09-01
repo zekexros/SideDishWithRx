@@ -18,6 +18,7 @@ extension Scene {
         case .main(let mainViewModel):
             var mainVC = MainViewController()
             let nav = UINavigationController(rootViewController: mainVC)
+            nav.navigationBar.backgroundColor = .white
             mainVC.bind(viewModel: mainViewModel)
             return nav
         case .detail(let detailViewModel):

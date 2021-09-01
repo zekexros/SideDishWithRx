@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BadgeLabel: UILabel {
+final class BadgeLabel: UILabel {
 
     private var topInset: CGFloat
     private var bottomInset: CGFloat

@@ -12,38 +12,31 @@ import NSObject_Rx
 import RxDataSources
 import SnapKit
 
-class MainViewController: UIViewController, ViewModelBindableType {
+final class MainViewController: UIViewController, ViewModelBindableType {
     
     var viewModel: MainViewModel!
-    lazy var mainDishListTableView: UITableView = {
+    private lazy var mainDishListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DishTableViewCell.self, forCellReuseIdentifier: DishTableViewCell.cellID)
         self.view.addSubview(tableView)
         return tableView
     }()
     
-    lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
+    private lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
-
+        
         Observable.just(item.image)
-            .observe(on: ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global()))
-            .map { imageURL -> UIImage? in
-                guard let url = URL(string: imageURL) else { return nil }
-                let data = try Data(contentsOf: url)
-                let image = UIImage(data: data)
-                return image
-            }
-            .catchAndReturn(nil)
-            .observe(on: MainScheduler.instance)
+            .compactMap { URL(string: $0) }
+            .flatMap{ viewModel.repository.fetchImage(url: $0) }
             .bind(to: cell.dishPhotography.rx.image)
-            .disposed(by: self.rx.disposeBag)
+            .disposed(by: rx.disposeBag)
 
         cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
 
         return cell
     })
     
-    func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
+    private func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
             return dataSource.sectionModels[indexPath].header
         }
@@ -55,7 +48,6 @@ class MainViewController: UIViewController, ViewModelBindableType {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAutoLayout()
-        viewModel.fetchDishes()
         configureDataSource(dataSource)
         mainDishListTableView.rx.setDelegate(self).disposed(by: rx.disposeBag)
     }
@@ -66,11 +58,16 @@ class MainViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
-        viewModel.sections
+        // input
+        viewModel.input.isViewDidLoad.accept(true)
+        
+        // output
+        viewModel.output.sections
             .asDriver(onErrorJustReturn: [])
             .drive(mainDishListTableView.rx.items(dataSource: dataSource))
             .disposed(by: rx.disposeBag)
         
+        // transition
         Observable.zip(mainDishListTableView.rx.modelSelected(Dish.self), mainDishListTableView.rx.itemSelected)
             .do(onNext: { (dish, indexPath) in
                 self.mainDishListTableView.deselectRow(at: indexPath, animated: true)
@@ -78,6 +75,8 @@ class MainViewController: UIViewController, ViewModelBindableType {
             .map { $0.0 }
             .bind(to: viewModel.transitionAction.inputs)
             .disposed(by: rx.disposeBag)
+        
+        mainDishListTableView.rx.separatorStyle.onNext(.none)
     }
 }
 
@@ -90,12 +89,11 @@ extension MainViewController: UITableViewDelegate {
         return 130
     }
     
-    
 }
 
 //AutoLayout
 extension MainViewController {
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         mainDishListTableView.snp.makeConstraints { view in
             view.edges.equalToSuperview()
         }

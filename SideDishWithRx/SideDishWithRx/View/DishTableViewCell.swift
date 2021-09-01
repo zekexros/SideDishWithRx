@@ -8,42 +8,18 @@
 import UIKit
 import SnapKit
 
-class DishTableViewCell: UITableViewCell {
+final class DishTableViewCell: UITableViewCell {
     
     static let cellID = "DishTableViewCell"
     let dishPhotography: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
-    var title = UILabel()
-    let dishDescription = UILabel()
-    let priceStackView: UIStackView = {
-        var stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.spacing = 4
-        return stackView
-    }()
-    let nPrice = UILabel()
-    let sPrice = UILabel()
-    let badgeStackView: UIStackView = {
-        var stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.spacing = 4
-        return stackView
-    }()
-    let dishInformationStackView: UIStackView = {
-        var stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.alignment = .leading
-        return stackView
-    }()
+
+    private let dishInformationStackView = DishInformationStackView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureDishInformationStackView()
         self.addSubviews()
         self.autoLayout()
     }
@@ -55,76 +31,27 @@ class DishTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let spacing = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+        let spacing = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
         contentView.frame = contentView.frame.inset(by: spacing)
     }
     
-    func addSubviews() {
+    override func prepareForReuse() {
+        dishInformationStackView.prepareForReuseAsCell()
+    }
+    
+    private func addSubviews() {
         contentView.addSubview(dishPhotography)
         contentView.addSubview(dishInformationStackView)
     }
     
-    func configureDishInformationStackView() {
-        dishInformationStackView.addArrangedSubview(title)
-        dishInformationStackView.addArrangedSubview(dishDescription)
-        dishInformationStackView.addArrangedSubview(priceStackView)
-    }
-    
-    func configurePriceStackView(nPriceValue: String?, sPriceValue: String) {
-        priceStackView.subviews.forEach { $0.removeFromSuperview() }
-
-        sPrice.text = sPriceValue
-        priceStackView.addArrangedSubview(sPrice)
-
-        
-        if let nPriceValue = nPriceValue {
-            let attributedString = changeStrikeThrough(text: nPriceValue)
-            nPrice.attributedText = attributedString
-            nPrice.textColor = .gray
-            priceStackView.addArrangedSubview(nPrice)
-        }
-    }
-    
-    func changeStrikeThrough(text: String) -> NSAttributedString {
-        let attributeString = NSMutableAttributedString(string: text)
-        attributeString.addAttribute(.strikethroughStyle, value: 1, range: NSMakeRange(0, attributeString.length))
-        return attributeString
-    }
-    
-    func configureBadgeStackView(badge: [String?]?) {
-        badgeStackView.subviews.forEach { $0.removeFromSuperview() }
-        
-        guard let badge = badge, !badge.compactMap({ $0 }).isEmpty else {
-            return
-        }
-
-        badge.forEach { badge in
-            if badge == "이벤트특가" {
-                let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemIndigo, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
-                badgeLabel.text = badge
-                badgeStackView.addArrangedSubview(badgeLabel)
-            } else {
-                let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemYellow, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
-                badgeLabel.text = badge
-                badgeStackView.addArrangedSubview(badgeLabel)
-            }
-        }
-        
-        dishInformationStackView.addArrangedSubview(badgeStackView)
-    }
-    
     func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
-        self.title.text = title
-        self.dishDescription.text = description
-        
-        configurePriceStackView(nPriceValue: nprice, sPriceValue: sPrice)
-        configureBadgeStackView(badge: badge)
-        
+        dishInformationStackView.setUpStackView(title: title, description: description, nprice: nprice, sPrice: sPrice, badge: badge)
+        dishInformationStackView.setUpFontSize(titleSize: 16, descriptionSize: 14)
     }
 }
 
 extension DishTableViewCell {
-    func autoLayout() {
+    private func autoLayout() {
         dishPhotography.snp.makeConstraints { imageView in
             imageView.width.equalTo(dishPhotography.snp.height).multipliedBy(1)
             imageView.top.leading.bottom.equalToSuperview()

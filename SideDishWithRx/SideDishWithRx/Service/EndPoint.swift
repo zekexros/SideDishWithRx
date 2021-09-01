@@ -13,19 +13,24 @@ struct EndPoint {
     let path: Path
     let baseURL = "/develop/baminchan"
     
-    func url() -> URL? {
+    func url(hashID: String? = nil) -> URL {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
-        urlComponents.path = baseURL + "/" + path.pathString
+        urlComponents.path = baseURL + "/" + path.pathString + "/" + (hashID ?? "")
         urlComponents.host = host
         
-        return urlComponents.url
+        guard let url = urlComponents.url else {
+            fatalError("The Requested URL Cannot be Found")
+        }
+        
+        return url
     }
     
     enum Path: String {
         case mainDish = "main"
         case sideDish = "soup"
         case soup = "side"
+        case detail = "detail"
         
         var pathString: String {
             return self.rawValue

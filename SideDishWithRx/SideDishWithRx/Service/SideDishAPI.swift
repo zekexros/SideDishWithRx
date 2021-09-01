@@ -10,31 +10,48 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-protocol APIType {
-    func fetchDish(path: EndPoint.Path) -> Observable<[Dish]>
-    func fetchAllDishes() -> Observable<[[Dish]]>
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
 }
 
-class SideDishAPI: NSObject, APIType {
-    private let mainDishList = BehaviorRelay<[Dish]>(value: [])
-    private let soupList = BehaviorRelay<[Dish]>(value: [])
-    private let sideDishList = BehaviorRelay<[Dish]>(value: [])
+protocol APIType {
+    func getRequest(endPoint: EndPoint, hashID: String?, httpMethod: HTTPMethod, query: String?) -> Observable<URLRequest>
+    func getRequestWithURL(url: URL) -> Observable<URLRequest>
+    func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T>
+    func request(urlRequest: URLRequest) -> Observable<Data>
+}
+
+final class SideDishAPI: NSObject, APIType {
     private let urlSession = URLSession.shared
     
-    func fetchDish(path: EndPoint.Path) -> Observable<[Dish]> {
-        let url = EndPoint(path: path).url()
-        let request = URLRequest(url: url!)
+    func getRequest(endPoint: EndPoint, hashID: String? = nil, httpMethod: HTTPMethod, query: String? = nil) -> Observable<URLRequest> {
+        let url = hashID == nil ? endPoint.url() : endPoint.url(hashID: hashID)
         
-        return urlSession.rx.data(request: request)
-            .map { data -> [Dish] in
-                let decoder = JSONDecoder()
-                let dishes = try decoder.decode(Dishes.self, from: data)
-                return dishes.body
-            }
-            .catchAndReturn([])
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.rawValue
+        
+        return Observable<URLRequest>.just(request)
+    }
+
+    func getRequestWithURL(url: URL) -> Observable<URLRequest> {
+        let request = URLRequest(url: url)
+        return Observable<URLRequest>.just(request)
     }
     
-    func fetchAllDishes() -> Observable<[[Dish]]> {
-        return Observable.combineLatest([fetchDish(path: .mainDish), fetchDish(path: .sideDish), fetchDish(path: .soup)])
+    func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T> {
+        return urlSession.rx.data(request: urlRequest)
+            .map { data -> T in
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decoded = try decoder.decode(decodingType, from: data)
+                return decoded
+            }
+    }
+    
+    func request(urlRequest: URLRequest) -> Observable<Data> {
+        return urlSession.rx.data(request: urlRequest)
     }
 }
