@@ -59,19 +59,19 @@ class DishInformationStackView: UIStackView {
         }
     }
     
-    private func configureBadgeStackView(badge: [String?]?) {
+    private func configureBadgeStackView(badge: [Badge?]?) {
         guard let badge = badge, !badge.compactMap({ $0 }).isEmpty else {
             return
         }
 
         badge.forEach { badge in
-            if badge == "이벤트특가" {
+            if badge == .event {
                 let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemIndigo, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
-                badgeLabel.text = badge
+                badgeLabel.text = badge?.rawValue
                 badgeStackView.addArrangedSubview(badgeLabel)
             } else {
                 let badgeLabel = BadgeLabel(frame: CGRect(x: 0, y: 0, width: 0, height: 0), backgroundColor: .systemYellow, topInset: 5, bottomInset: 5, leadingInset: 7, trailingInset: 7)
-                badgeLabel.text = badge
+                badgeLabel.text = badge?.rawValue
                 badgeStackView.addArrangedSubview(badgeLabel)
             }
         }
@@ -91,7 +91,7 @@ class DishInformationStackView: UIStackView {
         addArrangedSubview(priceStackView)
     }
     
-    func setUpStackView(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
+    func setUpStackView(title: String, description: String, nprice: String?, sPrice: String, badge: [Badge?]?) {
         self.title.text = title
         self.dishDescription.text = description
         

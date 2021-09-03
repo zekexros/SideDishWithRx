@@ -100,7 +100,7 @@ final class DetailScrollView: UIScrollView {
         self.imagesScrollView.configureContentView(view: view)
     }
     
-    func setUpDishInformationStackView(title: String, description: String, nPrice: String?, sPrice: String, badge: [String?]?) {
+    func setUpDishInformationStackView(title: String, description: String, nPrice: String?, sPrice: String, badge: [Badge?]?) {
         dishInformationStackVIew.setUpStackView(title: title, description: description, nprice: nPrice, sPrice: sPrice, badge: badge)
         dishInformationStackVIew.setUpFontSize(titleSize: 24, descriptionSize: 16)
     }

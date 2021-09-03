@@ -21,5 +21,11 @@ struct Dish: Decodable {
     let description: String
     let nPrice: String?
     let sPrice: String
-    let badge: [String?]?
+    let badge: [Badge?]?
+}
+
+enum Badge: String, Decodable {
+    case event = "이벤트특가"
+    case launch = "런칭특가"
+    case main = "메인특가"
 }

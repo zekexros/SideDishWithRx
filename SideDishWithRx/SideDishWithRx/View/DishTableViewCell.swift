@@ -44,7 +44,7 @@ final class DishTableViewCell: UITableViewCell {
         contentView.addSubview(dishInformationStackView)
     }
     
-    func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [String?]?) {
+    func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [Badge?]?) {
         dishInformationStackView.setUpStackView(title: title, description: description, nprice: nprice, sPrice: sPrice, badge: badge)
         dishInformationStackView.setUpFontSize(titleSize: 16, descriptionSize: 14)
     }
