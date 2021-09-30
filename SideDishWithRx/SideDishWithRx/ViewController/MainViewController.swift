@@ -28,6 +28,7 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         Observable.just(item.image)
             .compactMap { URL(string: $0) }
             .flatMap{ viewModel.repository.fetchImage(url: $0) }
+            .compactMap { UIImage(data: $0) }
             .bind(to: cell.dishPhotography.rx.image)
             .disposed(by: rx.disposeBag)
 
