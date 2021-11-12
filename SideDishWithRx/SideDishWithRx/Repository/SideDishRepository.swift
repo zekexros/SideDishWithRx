@@ -12,13 +12,14 @@ import UIKit.UIImage
 protocol RepositoryType {
     func fetchDish(endPoint: EndPoint) -> Observable<[Dish]>
     func fetchDetailDish(endPoint: EndPoint, hashID: String) -> Observable<DetailDish>
-    func fetchImage(url: URL) -> Observable<UIImage?>
+    func fetchImage(url: URL) -> Observable<Data>
     func fetchThumbImagesData(detailDish: DetailDish) -> Observable<Data>
     func fetchDetailSectionImagesData(detailDish: DetailDish) -> Observable<Data>
 }
 
 final class SideDishRepository: RepositoryType {
     private let apiService: APIType
+    private let imageCache = NSCache<NSString, NSData>()
     
     init(apiService: APIType) {
         self.apiService = apiService
@@ -38,25 +39,30 @@ final class SideDishRepository: RepositoryType {
             }
     }
     
-    func fetchImage(url: URL) -> Observable<UIImage?> {
-        return apiService.getRequestWithURL(url: url)
-            .flatMap{ [unowned self] in self.apiService.request(urlRequest: $0) }
-            .map { UIImage(data: $0) }
+    func fetchImage(url: URL) -> Observable<Data> {
+        let key = url.absoluteString as NSString
+        
+        guard let data = imageCache.object(forKey: key) else {
+            return apiService.getRequestWithURL(url: url)
+                .flatMap { [unowned self] in self.apiService.request(urlRequest: $0) }
+                .map { [unowned self] data -> Data in
+                    self.imageCache.setObject(data as NSData, forKey: key)
+                    return data
+                }
+        }
+        
+        return Observable<Data>.just(data as Data)
     }
     
     func fetchThumbImagesData(detailDish: DetailDish) -> Observable<Data> {
-        Observable<DetailDish>.just(detailDish)
-            .flatMap { Observable<String>.from($0.data.thumbImages) }
+        Observable<String>.from(detailDish.data.thumbImages)
             .compactMap{ URL(string: $0) }
-            .flatMap { [unowned self] in self.apiService.getRequestWithURL(url: $0) }
-            .flatMap { [unowned self] in self.apiService.request(urlRequest: $0) }
+            .flatMap { [unowned self] in self.fetchImage(url: $0) }
     }
     
     func fetchDetailSectionImagesData(detailDish: DetailDish) -> Observable<Data> {
-        Observable<DetailDish>.just(detailDish)
-            .flatMap { Observable<String>.from($0.data.detailSection) }
+        Observable<String>.from(detailDish.data.detailSection)
             .compactMap{ URL(string: $0) }
-            .flatMap { [unowned self] in self.apiService.getRequestWithURL(url: $0) }
-            .flatMap { [unowned self] in self.apiService.request(urlRequest: $0) }
+            .flatMap { [unowned self] in self.fetchImage(url: $0) }
     }
 }

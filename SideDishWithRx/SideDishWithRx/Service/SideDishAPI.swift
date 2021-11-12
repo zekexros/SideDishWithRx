@@ -10,6 +10,11 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
+enum Errors: Error {
+    case decodingError
+    case networkingError
+}
+
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
@@ -42,16 +47,48 @@ final class SideDishAPI: NSObject, APIType {
     }
     
     func request<T: Decodable>(urlRequest: URLRequest, decodingType: T.Type) -> Observable<T> {
-        return urlSession.rx.data(request: urlRequest)
-            .map { data -> T in
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let decoded = try decoder.decode(decodingType, from: data)
-                return decoded
+        return Observable<T>.create { [weak self] observer -> Disposable in
+            let task = self?.urlSession.dataTask(with: urlRequest, completionHandler: { data, response, error in
+                if let _ = error {
+                    observer.onError(Errors.networkingError)
+                }
+                
+                if let data = data {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    do {
+                        let decoded = try decoder.decode(decodingType, from: data)
+                        observer.onNext(decoded)
+                        observer.onCompleted()
+                    } catch {
+                        observer.onError(Errors.decodingError)
+                    }
+                }
+            })
+            
+            task?.resume()
+            return Disposables.create {
+                task?.cancel()
             }
+        }
     }
     
     func request(urlRequest: URLRequest) -> Observable<Data> {
-        return urlSession.rx.data(request: urlRequest)
+        return Observable<Data>.create { [weak self] observer -> Disposable in
+            let task = self?.urlSession.dataTask(with: urlRequest) { data, _, error in
+                if let _ = error {
+                    observer.onError(Errors.networkingError)
+                }
+                
+                if let data = data {
+                    observer.onNext(data)
+                    observer.onCompleted()
+                }
+            }
+            task?.resume()
+            return Disposables.create {
+                task?.cancel()
+            }
+        }
     }
 }
