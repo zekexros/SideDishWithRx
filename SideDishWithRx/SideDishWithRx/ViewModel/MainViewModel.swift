@@ -27,7 +27,7 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
         // 비즈니스 로직
         input.isViewDidLoad
             .filter { $0 }
-            .flatMap { _ in
+            .flatMap { [unowned self] _ in
                 self.fetchDishes()
             }
             .catchAndReturn([])
@@ -45,7 +45,7 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     }
     
     lazy var transitionAction: Action<Dish, Void> = {
-        return Action { dish in
+        return Action { [unowned self] dish in
             let detailViewModel = DetailViewModel(sceneCoordinator: self.sceneCoordinator, repository: self.repository, model: dish)
             let detailScene = Scene.detail(detailViewModel)
             return self.sceneCoordinator.transition(to: detailScene, using: .push, animated: true).asObservable().map{ _ in }
