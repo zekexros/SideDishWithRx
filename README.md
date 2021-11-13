@@ -21,22 +21,21 @@
 - NSMutableAttributedString
 - InstrinsicContentSize
 - Content Hugging, Compression Resistance
+- NSCache
+- Capture List
+- Strong reference cycle
 
 <br/>
 
 ## 디버깅
 
 - [메소드로 action 구현할 때 이벤트 방출이 안되는 버그](https://github.com/zeke-iOS/SideDishWithRx/issues/4)
-
 - [StackView에서 UILabel들의 정렬](https://github.com/zeke-iOS/SideDishWithRx/issues/6)
-
 - [tableView의 cell이 연속적으로 다른 계층으로 나타나는 현상](https://github.com/zeke-iOS/SideDishWithRx/issues/7)
-
 - [table view cell을 선택시 화면전환이 안되는 현상](https://github.com/zeke-iOS/SideDishWithRx/issues/8)
-
 - [타겟 'SideDishWithRxTests'에 pod추가하여도 적용안됨](https://github.com/zeke-iOS/SideDishWithRx/issues/16)
+- [화면 전환 할 때마다 메모리 증가 이슈](https://github.com/zeke-iOS/SideDishWithRx/issues/21)
 
-  
 <br/>
 
 
@@ -53,5 +52,4 @@
 ## 다이어그램
 
 <img width="1920" alt="image-20210830181419216" src="https://user-images.githubusercontent.com/42647277/131699540-5cfd1330-ca43-452b-be3f-95d62e276ca8.png">
-
 

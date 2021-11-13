@@ -95,8 +95,8 @@ final class DetailViewController: UIViewController, ViewModelBindableType {
                 }
                 return imageView
             }
-            .bind(onNext: { imageView in
-                self.detailScrollView.addSubviewInDetailSectionStackView(view: imageView)
+            .bind(onNext: { [weak self] imageView in
+                self?.detailScrollView.addSubviewInDetailSectionStackView(view: imageView)
             })
             .disposed(by: rx.disposeBag)
     }

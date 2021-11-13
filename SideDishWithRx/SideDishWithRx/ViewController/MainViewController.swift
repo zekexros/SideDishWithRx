@@ -15,8 +15,8 @@ import SnapKit
 final class MainViewController: UIViewController, ViewModelBindableType {
     
     var viewModel: MainViewModel!
-    var disposable: Disposable?
-    private lazy var mainDishListTableView: UITableView = {
+    
+    private lazy var mainDishListTableView: UITableView = { [unowned self] in
         let tableView = UITableView()
         tableView.register(DishTableViewCell.self, forCellReuseIdentifier: DishTableViewCell.cellID)
         self.view.addSubview(tableView)
@@ -32,13 +32,6 @@ final class MainViewController: UIViewController, ViewModelBindableType {
             .flatMap { loadImage(url: $0) }
             .bind(to: cell.dishPhotography.rx.image)
             .disposed(by: rx.disposeBag)
-        
-//        Observable.just(item.image)
-//            .compactMap { URL(string: $0) }
-//            .flatMap{ viewModel.repository.fetchImage(url: $0) }
-//            .compactMap { UIImage(data: $0) }
-//            .bind(to: cell.dishPhotography.rx.image)
-//            .disposed(by: rx.disposeBag)
 
         cell.configureCell(title: item.title, description: item.description, nprice: item.nPrice, sPrice: item.sPrice, badge: item.badge)
 
@@ -46,6 +39,7 @@ final class MainViewController: UIViewController, ViewModelBindableType {
     })
     
     private func configureDataSource(_ dataSource: RxTableViewSectionedReloadDataSource<SectionOfCustomData>) {
+        
         dataSource.titleForHeaderInSection = { dataSource, indexPath in
             return dataSource.sectionModels[indexPath].header
         }
@@ -78,7 +72,7 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         
         // transition
         Observable.zip(mainDishListTableView.rx.modelSelected(Dish.self), mainDishListTableView.rx.itemSelected)
-            .do(onNext: { (dish, indexPath) in
+            .do(onNext: { [unowned self] (dish, indexPath) in
                 self.mainDishListTableView.deselectRow(at: indexPath, animated: true)
             })
             .map { $0.0 }
@@ -103,11 +97,6 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
     }
-    
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        disposable?.dispose()
-    }
-    
 }
 
 //AutoLayout
