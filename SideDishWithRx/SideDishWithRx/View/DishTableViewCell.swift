@@ -15,6 +15,12 @@ final class DishTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         return imageView
     }()
+    
+    var indicatorView: UIActivityIndicatorView = {
+        var indicatorView = UIActivityIndicatorView()
+        indicatorView.startAnimating()
+        return indicatorView
+    }()
 
     private let dishInformationStackView = DishInformationStackView()
     
@@ -22,6 +28,7 @@ final class DishTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.addSubviews()
         self.autoLayout()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -42,6 +49,7 @@ final class DishTableViewCell: UITableViewCell {
     private func addSubviews() {
         contentView.addSubview(dishPhotography)
         contentView.addSubview(dishInformationStackView)
+        contentView.addSubview(indicatorView)
     }
     
     func configureCell(title: String, description: String, nprice: String?, sPrice: String, badge: [Badge?]?) {
@@ -61,6 +69,10 @@ extension DishTableViewCell {
             stackView.top.bottom.equalToSuperview().inset(1)
             stackView.leading.equalTo(dishPhotography.snp.trailing).offset(8)
             stackView.trailing.equalToSuperview().inset(16)
+        }
+        
+        indicatorView.snp.makeConstraints { indicatorView in
+            indicatorView.center.equalToSuperview()
         }
     }
 }

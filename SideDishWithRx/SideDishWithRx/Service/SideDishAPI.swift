@@ -10,9 +10,9 @@ import RxSwift
 import RxCocoa
 import NSObject_Rx
 
-enum Errors: Error {
-    case decodingError
-    case networkingError
+enum Errors: String, Error {
+    case decodingError = "디코딩 과정에서 에러가 발생하였습니다. abc123@naver.com으로 문의해주시기 바랍니다. 이용에 불편함을 드려 죄송합니다."
+    case networkingError = "네트워크 하는 과정에서 에러가 발생하였습니다. 다시 시도해주세요."
 }
 
 enum HTTPMethod: String {

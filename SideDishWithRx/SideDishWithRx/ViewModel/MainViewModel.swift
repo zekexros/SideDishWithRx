@@ -30,10 +30,16 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
             .flatMap { [unowned self] _ in
                 self.fetchDishes()
             }
-            .catchAndReturn([])
+            .catch { [unowned self] error in
+                self.output.error.onNext(error.localizedDescription)
+                return Observable<[SectionOfCustomData]>.just([])
+            }
+            .do(onNext: { [weak self] _ in
+                self?.output.isLoading.onNext(false)
+            })
             .bind(to: output.sections)
             .disposed(by: disposeBag)
-            
+        
     }
     
     struct Input {
@@ -42,6 +48,8 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     
     struct Output {
         let sections = PublishRelay<[SectionOfCustomData]>()
+        let error = PublishSubject<String>()
+        let isLoading = ReplaySubject<Bool>.create(bufferSize: 1)
     }
     
     lazy var transitionAction: Action<Dish, Void> = {

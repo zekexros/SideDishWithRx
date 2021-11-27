@@ -26,6 +26,10 @@ final class MainViewController: UIViewController, ViewModelBindableType {
     private lazy var dataSource = RxTableViewSectionedReloadDataSource<SectionOfCustomData>(configureCell: { [unowned self] (dataSource, tableView, indexPath, item) -> UITableViewCell in
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DishTableViewCell", for: indexPath) as? DishTableViewCell else { return UITableViewCell() }
         
+        viewModel.output.isLoading
+            .share()
+            .bind(to: cell.indicatorView.rx.isAnimating)
+            .disposed(by: rx.disposeBag)
         
         Observable.just(item.image)
             .compactMap { URL(string: $0) }
@@ -61,6 +65,7 @@ final class MainViewController: UIViewController, ViewModelBindableType {
     }
     
     func bindViewModel() {
+        
         // input
         viewModel.input.isViewDidLoad.accept(true)
         
@@ -68,6 +73,18 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         viewModel.output.sections
             .asDriver(onErrorJustReturn: [])
             .drive(mainDishListTableView.rx.items(dataSource: dataSource))
+            .disposed(by: rx.disposeBag)
+        
+        viewModel.output.error
+            .observe(on: MainScheduler.instance)
+            .subscribe { event in
+                let alertAction = UIAlertAction(title: "재시도", style: .default) { [weak self] action in
+                    self?.viewModel.input.isViewDidLoad.accept(true)
+                }
+                let alertController = UIAlertController(title: "오류", message: "\(event.element)", preferredStyle: .actionSheet)
+                alertController.addAction(alertAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
             .disposed(by: rx.disposeBag)
         
         // transition
