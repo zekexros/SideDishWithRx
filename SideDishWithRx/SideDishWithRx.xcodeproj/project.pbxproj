@@ -18,6 +18,8 @@
 		B33F9D7D26B7B770007ABF50 /* SideDishAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D7C26B7B770007ABF50 /* SideDishAPI.swift */; };
 		B33F9D7F26B7B9CE007ABF50 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D7E26B7B9CE007ABF50 /* EndPoint.swift */; };
 		B33F9D8126B80AA6007ABF50 /* DishTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */; };
+		B34A8B5F275293160080741D /* Rx+AnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34A8B5E275293160080741D /* Rx+AnimationView.swift */; };
+		B34A8B62275296A70080741D /* 85410-wifi.json in Resources */ = {isa = PBXBuildFile; fileRef = B34A8B61275296A70080741D /* 85410-wifi.json */; };
 		B351E2CC26C4BB8600DFD590 /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B351E2CB26C4BB8600DFD590 /* DetailScrollView.swift */; };
 		B351E2CE26C4BC3000DFD590 /* ImagesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B351E2CD26C4BC3000DFD590 /* ImagesScrollView.swift */; };
 		B351E2D026C500A800DFD590 /* DishInformationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B351E2CF26C500A800DFD590 /* DishInformationStackView.swift */; };
@@ -80,6 +82,8 @@
 		B33F9D7C26B7B770007ABF50 /* SideDishAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideDishAPI.swift; sourceTree = "<group>"; };
 		B33F9D7E26B7B9CE007ABF50 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		B33F9D8026B80AA6007ABF50 /* DishTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishTableViewCell.swift; sourceTree = "<group>"; };
+		B34A8B5E275293160080741D /* Rx+AnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Rx+AnimationView.swift"; path = "SideDishWithRx/Extension/Rx+AnimationView.swift"; sourceTree = SOURCE_ROOT; };
+		B34A8B61275296A70080741D /* 85410-wifi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "85410-wifi.json"; path = "../Lottie/85410-wifi.json"; sourceTree = "<group>"; };
 		B351E2CB26C4BB8600DFD590 /* DetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
 		B351E2CD26C4BC3000DFD590 /* ImagesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesScrollView.swift; sourceTree = "<group>"; };
 		B351E2CF26C500A800DFD590 /* DishInformationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishInformationStackView.swift; sourceTree = "<group>"; };
@@ -190,6 +194,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		B34A8B602752931F0080741D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B34A8B5E275293160080741D /* Rx+AnimationView.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		B34A8B63275297070080741D /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				B3708BFF26AE85AC0077CBE3 /* Assets.xcassets */,
+				B3708C0126AE85AC0077CBE3 /* LaunchScreen.storyboard */,
+				B3708C0426AE85AC0077CBE3 /* Info.plist */,
+				B34A8B61275296A70080741D /* 85410-wifi.json */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
 		B3658C5326B1333200B64504 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,12 +275,11 @@
 				B3658C5D26B138F500B64504 /* Scene */,
 				B3708BF626AE85AA0077CBE3 /* AppDelegate.swift */,
 				B3708BF826AE85AA0077CBE3 /* SceneDelegate.swift */,
+				B34A8B602752931F0080741D /* Extension */,
 				B33F9D8226B80AAF007ABF50 /* View */,
 				B3658C5326B1333200B64504 /* ViewController */,
 				B3658C5626B135EE00B64504 /* ViewModel */,
-				B3708BFF26AE85AC0077CBE3 /* Assets.xcassets */,
-				B3708C0126AE85AC0077CBE3 /* LaunchScreen.storyboard */,
-				B3708C0426AE85AC0077CBE3 /* Info.plist */,
+				B34A8B63275297070080741D /* Supporting */,
 			);
 			path = SideDishWithRx;
 			sourceTree = "<group>";
@@ -417,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3708C0326AE85AC0077CBE3 /* LaunchScreen.storyboard in Resources */,
+				B34A8B62275296A70080741D /* 85410-wifi.json in Resources */,
 				B3708C0026AE85AC0077CBE3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,6 +610,7 @@
 				B3E7386B26C15D9100632855 /* DetailDish.swift in Sources */,
 				B3658C6126B13B5100B64504 /* Scene.swift in Sources */,
 				B3658C6526B1432500B64504 /* SceneCoordinator.swift in Sources */,
+				B34A8B5F275293160080741D /* Rx+AnimationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
