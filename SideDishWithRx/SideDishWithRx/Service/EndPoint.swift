@@ -9,7 +9,7 @@ import Foundation
 
 struct EndPoint {
     let scheme = "https"
-    let host = "h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com"
+    let host = "h3rb9c0ugl.execute-api.ap-norteast-2.amazonaws.com"
     let path: Path
     let baseURL = "/develop/baminchan"
     

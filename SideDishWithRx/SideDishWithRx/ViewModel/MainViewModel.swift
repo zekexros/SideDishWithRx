@@ -30,12 +30,22 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
             .flatMap { [unowned self] _ in
                 self.fetchDishes()
             }
-            .catch { [unowned self] error in
-                self.output.error.onNext(error.localizedDescription)
-                return Observable<[SectionOfCustomData]>.just([])
-            }
             .do(onNext: { [weak self] _ in
                 self?.output.isLoading.onNext(false)
+            }, onError: { error in
+                print("\(error.localizedDescription)-에러 발생")
+                let error = error as! Errors
+                switch error {
+                case .decodingError:
+                    self.output.error.onNext(error.rawValue)
+                case .networkingError:
+                    self.output.error.onNext(error.rawValue)
+                }
+            }, onCompleted: {
+                print("completed되었어요")
+            })
+            .retry(when: { [unowned self] _ in
+                self.input.retryTapped
             })
             .bind(to: output.sections)
             .disposed(by: disposeBag)
@@ -44,6 +54,7 @@ final class MainViewModel: HasDisposeBag, ViewModelType {
     
     struct Input {
         let isViewDidLoad = BehaviorRelay<Bool>(value: false)
+        let retryTapped = PublishSubject<Void>()
     }
     
     struct Output {

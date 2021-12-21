@@ -6,11 +6,13 @@
 //
 
 import UIKit
+
 import RxSwift
 import RxCocoa
 import NSObject_Rx
 import RxDataSources
 import SnapKit
+import Lottie
 
 final class MainViewController: UIViewController, ViewModelBindableType {
     
@@ -77,13 +79,16 @@ final class MainViewController: UIViewController, ViewModelBindableType {
         
         viewModel.output.error
             .observe(on: MainScheduler.instance)
-            .subscribe { event in
-                let alertAction = UIAlertAction(title: "재시도", style: .default) { [weak self] action in
-                    self?.viewModel.input.isViewDidLoad.accept(true)
+            .subscribe { [unowned self] event in
+                let alertAction = UIAlertAction(title: event.element, style: .default) { _ in
+                    viewModel.input.retryTapped.onNext(())
                 }
-                let alertController = UIAlertController(title: "오류", message: "\(event.element)", preferredStyle: .actionSheet)
+                let alertController = UIAlertController(title: "경고", message: "에러가 발생하였습니다.", preferredStyle: .alert)
                 alertController.addAction(alertAction)
-                self.present(alertController, animated: true, completion: nil)
+                present(alertController, animated: true, completion: nil)
+                
+//                self.view.addSubview(self.reconnectView)
+//                reconnectView.rx.state.onNext(true)
             }
             .disposed(by: rx.disposeBag)
         
